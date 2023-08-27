@@ -17,10 +17,10 @@ namespace BeeAware.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class hipController : ControllerBase
+    public class hip_Controller : ControllerBase
     {
         private readonly IConfiguration _configuration; //dont change this line
-        public hipController(IConfiguration configuration) // [ModuleName]Controller
+        public hip_Controller(IConfiguration configuration) // [ModuleName]Controller
         {
             _configuration = configuration;
         }
