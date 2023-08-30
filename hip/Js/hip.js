@@ -1,3 +1,38 @@
+function hip_switchScreen(screen_name) {
+    fetch("/api/hip/SwitchScreen", { // fetch to the api route that is provided in backend, with get if you need
+        referer: 'about:client',
+        credentials: 'same-origin',
+        headers: new Headers({ 'content-type': 'application/ json' }),
+    })
+        .then(function (response) {
+            if (response.status == 200) {
+                var pages = document.getElementsByClassName("hip_screen");
+                var shownScreen = document.getElementById(screen_name);
+                for (var i = 0; i < pages.length; i++) {
+                    pages[i].style.display = "none";
+                }
+                shownScreen.style.display = "block";
+            } else {
+                window.alert("failed!!")
+            }
+
+        }
+        ).catch(function (err) {
+
+        })
+
+/*
+    var pages = document.getElementsByClassName("hip_screen");
+    var shownScreen = document.getElementById(screen_name);
+    for (var i = 0; i < pages.length; i++) {
+        pages[i].style.display = "none";
+    }
+    shownScreen.style.display = "block";
+*/
+}
+
+
+// Example JS
 function exampleTest() {
     fetch("/api/Example/Test", { // fetch to the api route that is provided in backend, with get if you need
         referer: 'about:client',
@@ -25,13 +60,13 @@ function login(event) {
     event.preventDefault();
      var email = document.getElementById ("login-email")
      var password = document.getElementById("login-password")
- 
+
      const data = JSON.stringify({
          'id': parseInt(0),
- 
+
          "email": email.value,
          "group": email.value,
- 
+
          "password": password.value,
      })
      fetch("/api/User/login", {
@@ -45,15 +80,15 @@ function login(event) {
              if (response.status == 202) {
                  response.json()
                      .then(data => {
-                        
+                       
                      })
              } else {
-                
+               
              }
- 
+
          }
          ).catch(function (err) {
- 
+
          })
  };*/
  // this is just a example function with post method

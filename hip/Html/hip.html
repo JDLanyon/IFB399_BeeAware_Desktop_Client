@@ -1,8 +1,41 @@
  <!-- file name: [ModuleName]+.html -->
-<div id="hip_page" class="innerPages"> <!-- id="[ModuleName]+Page" class="pages" -->
-    <h1 id="hip_PageTitle">This is a Heading</h1>
-    <p>This is a paragraph.</p>
-    <button onclick="exampleTest()">this is a test button</button>
-    <script src="../Modules/Js/hip.js"></script><!-- script must be separate-->
-    <style link="../Modules/Css/hip.css"></style>
+<div id="hip" class="innerPages">
+    <!-- id="[ModuleName]+Page" class="pages" -->
+
+    <!-- Sidebar -->
+    <div id="hip_sidebar">
+        <div id="hip_screenButtons">
+            <a onclick="hip_switchScreen('hip_global_setup')">Global setup</a>
+            <a onclick="hip_switchScreen('hip_location_setup')">Locations</a>
+            <a onclick="hip_switchScreen('hip_hive_setup')">Hives</a>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div id="hip_content">
+
+        <div id="hip_global_setup" class="hip_screen">
+            <h1 id="hip_PageTitle">Hive Inspections - Global Setup</h1>
+            <p>This is a paragraph.</p>
+            <button onclick="exampleTest()">this is a test button</button>
+        </div>
+
+        <div id="hip_location_setup" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - Locations</h1>
+            <p>This is a paragraph.</p>
+            <button onclick="exampleTest()">this is a test button</button>
+        </div>
+
+        <div id="hip_hive_setup" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - Hives</h1>
+            <p>This is a paragraph.</p>
+            <button onclick="exampleTest()">this is a test button</button>
+        </div>
+
+    </div>
+
+    <script src="../Modules/Js/hip.js"></script>
+    <!-- script must be separate-->
+    <!-- <style link="../Modules/Css/hip.css"></style> -->
+    <link rel="stylesheet" href="../Modules/Css/hip.css">
 </div>

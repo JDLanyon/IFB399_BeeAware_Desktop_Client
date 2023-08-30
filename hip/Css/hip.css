@@ -1,11 +1,29 @@
 /*do remember to add root field to your own page*/
-#examplepage{
-
+#hip_sidebar {
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    top: 140px;
+    left: 200px;
+    background-color: #eee;
+    overflow-x: hidden;
+    padding-top: 40px;
+    border-radius: 0 15px 0 0;
 }
-#examplepage h1{
-    
+#hip_sidebar * {
+    box-sizing: border-box;
+}
+#hip_screenButtons a {
+    display: block;
+    color: #131313;
+    padding: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+#hip_screenButtons a:hover {
+      background-color: #ddd;
 }
 
-#examplepage #aDiv{
-    
+#hip_content {
+    margin-left: 150px;
 }
