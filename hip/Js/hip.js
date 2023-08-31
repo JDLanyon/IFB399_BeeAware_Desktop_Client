@@ -1,35 +1,11 @@
 function hip_switchScreen(screen_name) {
-    fetch("/api/hip/SwitchScreen", { // fetch to the api route that is provided in backend, with get if you need
-        referer: 'about:client',
-        credentials: 'same-origin',
-        headers: new Headers({ 'content-type': 'application/ json' }),
-    })
-        .then(function (response) {
-            if (response.status == 200) {
-                var pages = document.getElementsByClassName("hip_screen");
-                var shownScreen = document.getElementById(screen_name);
-                for (var i = 0; i < pages.length; i++) {
-                    pages[i].style.display = "none";
-                }
-                shownScreen.style.display = "block";
-            } else {
-                window.alert("failed!!")
-            }
-
-        }
-        ).catch(function (err) {
-
-        })
-
-/*
     var pages = document.getElementsByClassName("hip_screen");
     var shownScreen = document.getElementById(screen_name);
     for (var i = 0; i < pages.length; i++) {
         pages[i].style.display = "none";
     }
     shownScreen.style.display = "block";
-*/
-}
+};
 
 
 // Example JS
