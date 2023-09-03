@@ -1,5 +1,5 @@
  <!-- file name: [ModuleName]+.html -->
-<div id="hip" class="innerPages">
+<div id="hip" class="innerPages" nameonbutton="HInspec">
     <!-- id="[ModuleName]+Page" class="pages" -->
 
     <!-- Sidebar -->
@@ -22,8 +22,47 @@
 
         <div id="hip_location_setup" class="hip_screen" style="display: none;">
             <h1 id="hip_PageTitle">Hive Inspections - Locations</h1>
-            <p>This is a paragraph.</p>
-            <button onclick="exampleTest()">this is a test button</button>
+            <!-- Control buttons -->
+            <button onclick="hip_resyncWithDB('hip_location_table')">Resync with db</button>
+            <button onclick="exampleTest()">Add row</button>
+            <button onclick="exampleTest()">Delete row</button>
+            <button onclick="exampleTest()">Some other cool option</button>
+
+            <!-- Table of locations -->
+            <table class="hip_table" id="hip_location_table">
+                <thead>
+                    <tr>
+                        <th>mms_AddressID</th>
+                        <th>mms_UserID</th>
+                        <th>mms_AddressType</th>
+                        <th>mms_Address1</th>
+                        <th>mms_Address2</th>
+                        <th>mms_Address3</th>
+                        <th>mms_City</th>
+                        <th>mms_PostCode</th>
+                        <th>mms_RegionalCouncil</th>
+                        <th>mms_State</th>
+                        <th>mms_Country</th>
+                        <th>mms_PostDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>1</th>
+                        <th>1</th>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                        <td contenteditable='true'></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div id="hip_hive_setup" class="hip_screen" style="display: none;">
