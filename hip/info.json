@@ -1,0 +1,6 @@
+{"Module":"exp",
+"ModuleCode":"HIP",
+"Description":"This is a description for Hive Inspections module",
+"SecurityLevel":2,
+"SQL":"CREATE TABLE hip_Example (\nID INT PRIMARY KEY IDENTITY (1, 1),\nName VARCHAR (50) NOT NULL UNIQUE,\nDescription TEXT NOT NULL\n);"
+}
