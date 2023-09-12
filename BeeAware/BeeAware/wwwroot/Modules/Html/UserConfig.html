@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="conf_style.css">
+</head>
+<body>
+    <table id="myTable" class="styled-table"></table>
+    <script>
+    window.onload = function(){
+        const params = {
+            TableName: 'hip_Users',
+        }
+
+        const queryString = new URLSearchParams(params).toString();
+        const url = 'https://localhost:7133/api/Module/hip_users';
+
+        const finalUrl = `${url}?${queryString}`;
+
+        fetch(finalUrl, {
+            method: 'GET',
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+        })
+        .then(function (response) {
+                response.json().then(function (data) {
+                    console.log(data);
+                    // Get table reference
+                    const table = document.getElementById('myTable');
+                    
+                    // Generate headers
+                    let header = '<tr>';
+                    for (let key in data[0]) {
+                        header += `<th>${key}</th>`;
+                    }
+                    header += `<th>Submit Button</th>`;
+                    header += '</tr>';
+                    
+                    // Generate rows
+                    let rows = '';
+                    let rowIndex = 1;
+                    for (let obj of data) {
+                        rows += '<tr>';
+                        for (let val in obj) {
+                            rows += `<td contenteditable="true">${obj[val]}</td>`; 
+                        }
+                        rows += `<td><button class="submit" onclick="submitRow(${rowIndex})">Submit</button></td>`;
+                        rows += '</tr>';
+                    }
+                    
+                    // Set innerHTML
+                    table.innerHTML = header + rows;
+                });
+            })
+        };
+
+        function submitRow(t_rowIndex){
+            const table = document.getElementById('myTable');
+            const row = table.rows[t_rowIndex];
+            const cells = row.cells;
+            const data = JSON.stringify({
+                'UserID': parseInt(cells[0].innerHTML),
+                'UserType': cells[1].innerHTML,
+                'RegNo': cells[2].innerHTML,
+                'PostDate': cells[3].innerHTML,
+            })
+            const url = 'https://localhost:7133/api/Module/hip_users_post';
+            fetch(url, {
+                method: 'POST',
+                referer: 'about:client',
+                credentials: 'same-origin',
+                headers: new Headers({ 'content-type': 'application/ json' }),
+                body: data
+            })
+            .then(function (response) {
+                response.json().then(function (data) {
+                    if (response.status == 202) {
+                        alert('Data submitted successfully');
+                        console.log('Data submitted successfully');
+                    } else {
+                        alert('Data submission failed');
+                        console.log('Data submission failed');
+                    }
+                });
+            })
+        }
+    </script>
+
+</body>
+</html>

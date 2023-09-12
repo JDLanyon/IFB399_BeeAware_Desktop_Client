@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="hiStyle.css">
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <button class="main-nav-btn">Hive Inspection</button>
+    </div>
+    
+    <div class="subnav">
+      <button onclick="switchInnerPageFlex('About')">About</button>
+      <button onclick="switchInnerPageFlex('setup')">Setup</button>
+      <button onclick="switchInnerPageFlex('inspection')">Inspection</button>
+    </div>
+
+   <div id="About" class="innerPages">
+    <p>Basically put the readme here or something, I don't know.Will there even be an about section?</p>
+   </div>
+
+   <div id="setup" class="innerPages">
+      <button><a href="HiveConfig.html">Hive Configuration</a></button> 
+      <button><a href="LocationConfig.html">Location Configurations</a></button> 
+      <button><a href="NoteConfig.html">Notation Configuration</a></button> 
+      <button><a href="UserConfig.html">Admin Configurations</a></button> 
+      <div class="notice">please note that these are modular and may not be confirmed yet.</div>
+   </div>
+   <div id="inspection" class="innerPages">
+    <div class="locations">
+      <h1>Locations</h1>
+      <div class="row">
+        <input type="checkbox">
+        <p>Location1</p>
+        <button class="edit-btn">
+          <img src="../../images/editIcon.png" alt="" width="30" height="30">
+        </button>
+      </div>
+    </div>
+    <div class="hives">
+      <h1>Hives</h1>
+      <div class="hivesInfo">
+        <div class="hiveInfo"> </div>
+        <div class="hiveInfo"> </div>
+        <div class="hiveInfo"> </div>
+        <div class="hiveInfo"> </div>
+        <div class="hiveInfo"> </div>
+      </div>
+    </div>
+   </div>
+  </div>
+  <script src="../../utils.js"></script>
+  <script src="hiFunctions.js"></script>
+</body>
+</html>
