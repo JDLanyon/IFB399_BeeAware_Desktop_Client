@@ -1,3 +1,4 @@
+// Switch to sub screens within the module
 function hip_switchScreen(screen_name) {
     var pages = document.getElementsByClassName("hip_screen");
     var shownScreen = document.getElementById(screen_name);
@@ -6,6 +7,43 @@ function hip_switchScreen(screen_name) {
     }
     shownScreen.style.display = "block";
 };
+
+// Populates table with data from the database
+function hip_resyncTable(table) {
+    // check that the user wants to resync the table.
+    if (window.confirm("This will reset any modifications you have made. Are you sure you want to resync the table?") == false)
+        return;
+
+    if (table == "locations") { // fetch hive locations from database.
+
+        fetch("/api/hip/getLocations", { // fetch to the api route that is provided in backend, with get if you need
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+        })
+            .then(function (response) {
+                if (response.status == 200) {
+                    response.json()
+                        .then(data => {
+
+                            console.log(data);
+
+                        })
+                } else {
+                    window.alert("failed!!")
+                }
+
+            }
+            ).catch(function (err) {
+                console.log(err);
+            })
+
+    } else if (table == "inspection details") {
+        window.alert("inspection details");
+    } else {
+        window.alert("Unexpected parameter given for hip_resyncTable().");
+    }    
+}
 
 // table editing is from https://code-boxx.com/editable-html-table/
 
@@ -80,7 +118,6 @@ close: evt => {
         }
     }
 }
-
 
 
 // Example JS

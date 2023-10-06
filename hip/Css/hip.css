@@ -1,14 +1,15 @@
 /*do remember to add root field to your own page*/
 #hip_sidebar {
+    z-index: 1;
     height: 100%;
     width: 150px;
     position: fixed;
-    top: 140px;
+    top: 117px;
     left: 200px;
-    background-color: #eee;
+    background-color: #EEF2B8;
     overflow-x: hidden;
     padding-top: 40px;
-    border-radius: 0 15px 0 0;
+    /* border-radius: 0 15px 0 0; */
 }
 #hip_sidebar * {
     box-sizing: border-box;
@@ -21,7 +22,7 @@
     cursor: pointer;
 }
 #hip_screenButtons a:hover {
-      background-color: #ddd;
+      background-color: #D2D6A4;
 }
 
 #hip_content {
@@ -52,10 +53,10 @@ hip_content * {
     padding: 15px;
 }
 #hip_location_table th {
-    background: #ccc;
+    background: #D2D6A4;
 }
 #hip_location_table tbody tr:nth-child(2n+1) {
-    background: #eee;
+    background: #EEF2B8;
 }
 #hip_location_table tbody tr:nth-child(2n) {
     background: #fff;

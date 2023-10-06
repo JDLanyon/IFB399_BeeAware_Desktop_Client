@@ -1,1 +1,1 @@
-this is a description for the hip module 
+A module for hive inspections.
