@@ -59,7 +59,7 @@ hip_content * {
     background: #EEF2B8;
 }
 #hip_location_table tbody tr:nth-child(2n) {
-    background: #fff;
+    background: #EDEFD0;
 }
 #hip_location_table td.edit {
     background: #ff8;

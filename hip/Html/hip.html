@@ -23,10 +23,10 @@
         <div id="hip_location_setup" class="hip_screen" style="display: none;">
             <h1 id="hip_PageTitle">Hive Inspections - Locations</h1>
             <!-- Control buttons -->
-            <button onclick="hip_resyncTable('locations')">Resync table</button>
-            <button onclick="exampleTest()">Update table</button>
-            <button onclick="exampleTest()">Add row</button>
-            <button onclick="exampleTest()">Delete row</button>
+            <button onclick="hip_resyncTable('locations')" style="background:#D2D6A4">Resync table</button>
+            <button onclick="hip_uploadTable('locations')" style="background:#D2D6A4">Upload table</button>
+            <button onclick="hip_addRow('locations')" style="background:#D2D6A4">Add row</button>
+            <button onclick="hip_delRow('locations')" style="background:#D2D6A4">Delete row</button>
 
             <!-- Table of locations -->
             <table class="hip_table" id="hip_location_table">
@@ -59,7 +59,7 @@
                         <td contenteditable='true'></td>
                         <td contenteditable='true'></td>
                         <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
+                        <th></th>
                     </tr>
                 </tbody>
             </table>

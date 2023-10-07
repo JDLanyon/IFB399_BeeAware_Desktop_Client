@@ -8,6 +8,37 @@ function hip_switchScreen(screen_name) {
     shownScreen.style.display = "block";
 };
 
+function hip_addRow(table) {
+    if (table == "locations") {
+        var html_table = document.getElementById("hip_location_table");
+        // empty row html string (this is silly)
+        let next_ID = html_table.children[1].children.length + 1;
+
+        // 1 isn't the user id and next_ID is a bad way of displaying addressID for new rows.
+        let table_body = "\n<tr>\n<th>" + next_ID + "</th><th>" + 1 + "</th>";
+        for (let i = 0; i < 9; i++) {
+            table_body += "<td contenteditable=\"true\"></td>";
+        }
+        table_body += "<th></th>\n</tr>";
+
+        html_table.children[1].insertAdjacentHTML('beforeend', table_body);
+    } else {
+        return;
+    }
+}
+
+function hip_delRow(table) {
+    if (table == "locations") {
+        var html_table = document.getElementById("hip_location_table");
+        // delete the last row
+        let next_ID = html_table.children[1].removeChild(html_table.children[1].lastChild);
+
+        html_table.children[1].insertAdjacentHTML('beforeend', table_body);
+    } else {
+        return;
+    }
+}
+
 // Populates table with data from the database
 function hip_resyncTable(table) {
     // check that the user wants to resync the table.
@@ -15,6 +46,8 @@ function hip_resyncTable(table) {
         return;
 
     if (table == "locations") { // fetch hive locations from database.
+
+        var table_data;
 
         fetch("/api/hip/getLocations", { // fetch to the api route that is provided in backend, with get if you need
             referer: 'about:client',
@@ -26,17 +59,40 @@ function hip_resyncTable(table) {
                     response.json()
                         .then(data => {
 
-                            console.log(data);
+                            // Rebuild table depending on the existing data
+                            var html_table = document.getElementById("hip_location_table");
+
+                            // build table body from data
+                            let table_body = "";
+                            data.forEach(function (row, row_val) {
+                                table_body += "<tr>\n<th>" + row["AddressID"]
+                                    + "</th><th>" + row["MemberID"]
+                                    + "</th><td contenteditable=\"true\">" + row["AddressType"]
+                                    + "</td><td contenteditable=\"true\">" + row["Address1"]
+                                    + "</td><td contenteditable=\"true\">" + row["Address2"]
+                                    + "</td><td contenteditable=\"true\">" + row["Address3"]
+                                    + "</td><td contenteditable=\"true\">" + row["City"]
+                                    + "</td><td contenteditable=\"true\">" + row["PostCode"]
+                                    + "</td><td contenteditable=\"true\">" + row["RegionalCouncil"]
+                                    + "</td><td contenteditable=\"true\">" + row["State"]
+                                    + "</td><td contenteditable=\"true\">" + row["Country"]
+                                    + "</td><th>" + row["PostDate"]
+                                    + "</th>\n</tr>";
+                            })
+
+                            // replace current body with new body
+                            html_table.children[1].innerHTML = table_body;
 
                         })
                 } else {
                     window.alert("failed!!")
                 }
-
             }
             ).catch(function (err) {
                 console.log(err);
             })
+
+
 
     } else if (table == "inspection details") {
         window.alert("inspection details");
