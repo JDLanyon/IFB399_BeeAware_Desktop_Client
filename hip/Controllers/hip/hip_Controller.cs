@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using static BeeAware.SessionVariables;
 using System.Text.Json;
 using System.Diagnostics.Metrics;
+using System.Collections;
+using System.Text.Json.Serialization;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -37,7 +39,7 @@ namespace BeeAware.Controllers
 
         [HttpGet]
         [Route("getLocations")]
-        [ProducesResponseType(StatusCodes.Status200OK)] // passibile response
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public ContentResult GetLocations()
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
@@ -53,7 +55,7 @@ namespace BeeAware.Controllers
                 {
                     // IDs aren't needed.
                     AddressID = read.GetInt64(0),
-                    MemberID = read.GetInt64(1),
+                    UserID = read.GetInt64(1),
                     AddressType = read.IsDBNull(2) ? null : read.GetString(2),
                     Address1 = read.IsDBNull(3) ? null : read.GetString(3),
                     Address2 = read.IsDBNull(4) ? null : read.GetString(4),
@@ -71,6 +73,36 @@ namespace BeeAware.Controllers
             con.Close();
 
             return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
+        }
+
+        [HttpPost]
+        [Route("postLocations")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult PostLocations(List<hip_Location> location_tables)
+        {
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+            try
+            {
+                //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
+                string json = JsonSerializer.Serialize(location_tables).ToString();
+
+                SqlCommand cmd = new SqlCommand($"DELETE FROM mms_Address DECLARE @JSON VARCHAR(MAX) = '{json}' INSERT INTO mms_Address SELECT * FROM OPENJSON(@JSON) WITH (AddressID INT, UserID INT, AddressType VARCHAR(5), Address1 VARCHAR(50), Address2 VARCHAR(50), Address3 VARCHAR(50), City VARCHAR(25), PostCode VARCHAR(5), RegionalCouncil VARCHAR(25), State VARCHAR(5), Country INT, PostDate DATE)", con);
+                // TODO: add all entries from location_tables
+
+                con.Open();
+                //int rows_affected = delete_cmd.ExecuteNonQuery();
+                int rows_affected = cmd.ExecuteNonQuery();
+                con.Close();
+                if (rows_affected <= 0)
+                {
+                    throw new Exception("no rows affected.");
+                }
+                return new ContentResult { Content = JsonSerializer.Serialize("Successfully updated the table!"), StatusCode = 200 };
+            }
+            catch
+            {
+                return new ContentResult { Content = JsonSerializer.Serialize("table update failed."), StatusCode = 403 };
+            }
         }
     }
 

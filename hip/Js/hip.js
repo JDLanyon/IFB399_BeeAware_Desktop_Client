@@ -47,8 +47,6 @@ function hip_resyncTable(table) {
 
     if (table == "locations") { // fetch hive locations from database.
 
-        var table_data;
-
         fetch("/api/hip/getLocations", { // fetch to the api route that is provided in backend, with get if you need
             referer: 'about:client',
             credentials: 'same-origin',
@@ -66,7 +64,7 @@ function hip_resyncTable(table) {
                             let table_body = "";
                             data.forEach(function (row, row_val) {
                                 table_body += "<tr>\n<th>" + row["AddressID"]
-                                    + "</th><th>" + row["MemberID"]
+                                    + "</th><th>" + row["UserID"]
                                     + "</th><td contenteditable=\"true\">" + row["AddressType"]
                                     + "</td><td contenteditable=\"true\">" + row["Address1"]
                                     + "</td><td contenteditable=\"true\">" + row["Address2"]
@@ -90,15 +88,86 @@ function hip_resyncTable(table) {
             }
             ).catch(function (err) {
                 console.log(err);
-            })
-
-
-
-    } else if (table == "inspection details") {
-        window.alert("inspection details");
+            });
     } else {
         window.alert("Unexpected parameter given for hip_resyncTable().");
-    }    
+    }
+}
+
+function hip_uploadTable(table) {
+    // check that the user wants to resync the table.
+    if (window.confirm("Are you sure you want to upload the table? Previous entries will not be saved.") == false)
+        return;
+
+    if (table == "locations") { // fetch hive locations from database.
+        let html_table_data = document.getElementById("hip_location_table").rows;
+        let json_table = [];
+        console.log(html_table_data);
+
+        for (let i = 1; i < html_table_data.length; i++) { // i starts at 1 to avoid the header row.
+            let html_row_data = html_table_data[i].children;
+            var json_row = {};
+
+            json_row.AddressID = html_table_data[i].children[0].innerHTML;
+            json_row.UserID = html_table_data[i].children[1].innerHTML;
+            json_row.AddressType = html_table_data[i].children[2].innerHTML;
+            json_row.Address1 = html_table_data[i].children[3].innerHTML;
+            json_row.Address2 = html_table_data[i].children[4].innerHTML;
+            json_row.Address3 = html_table_data[i].children[5].innerHTML;
+            json_row.City = html_table_data[i].children[6].innerHTML;
+            json_row.PostCode = html_table_data[i].children[7].innerHTML;
+            json_row.RegionalCouncil = html_table_data[i].children[8].innerHTML;
+            json_row.State = html_table_data[i].children[9].innerHTML;
+            json_row.Country = html_table_data[i].children[10].innerHTML;
+            json_row.PostDate = html_table_data[i].children[11].innerHTML;
+
+            json_table.push(json_row); // add row entry to list
+
+
+            // old code
+
+            //for (let j = 0; j < html_row_data.length; j++) {
+            //    // convert to the correct datatype
+            //    if (j <= 1 || j == html_row_data.length - 1)
+            //        json_row.push(Number(html_row_data[j].innerHTML));
+            //    // this part may be problematic and would need actual front end datetime implementation.
+            //    else if (j == html_row_data.length)
+            //        json_row.push(new Date(html_row_data[j].innerHTML));
+            //    else
+            //        json_row.push(html_row_data[j].innerHTML);
+            //}
+            //json_table.push(json_row);
+        }
+
+        console.log(json_table);
+        const data = JSON.stringify(json_table);
+
+        // push to DB
+        fetch("/api/hip/postLocations", {
+            method: 'POST',
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+            body: data,
+        })
+            .then(function (response) {
+                if (response.status == 200) {
+                    response.json()
+                        .then(() => {
+                            window.alert("Success!")
+                        })
+                } else {
+
+                }
+            }
+            ).catch(function (err) {
+                
+            });
+
+
+    } else {
+        window.alert("Unexpected parameter given for hip_uploadTable().");
+    }
 }
 
 // table editing is from https://code-boxx.com/editable-html-table/

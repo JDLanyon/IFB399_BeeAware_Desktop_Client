@@ -5,7 +5,7 @@ namespace BeeAware.Models
     {
         // Although some fields cannot be null, it's best to have for future proofing.
         public long AddressID { get; set; }
-        public long MemberID { get; set; }
+        public long UserID { get; set; }
         public string? AddressType { get; set; }
         public string? Address1 { get; set; }
         public string? Address2 { get; set; }
@@ -16,7 +16,6 @@ namespace BeeAware.Models
         public string? State { get; set; }
         public long? Country { get; set; }
         public DateTime? PostDate { get; set; }
-
     }
     // have same structure as it is stored in database
 }
