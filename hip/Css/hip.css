@@ -11,9 +11,11 @@
     padding-top: 40px;
     /* border-radius: 0 15px 0 0; */
 }
+
 #hip_sidebar * {
     box-sizing: border-box;
 }
+
 #hip_screenButtons a {
     display: block;
     color: #131313;
@@ -48,19 +50,35 @@ hip_content * {
 #hip_location_table {
     border-collapse: collapse;
 }
-#hip_location_table th, #hip_location_table td {
-    text-align: left;
-    padding: 15px;
+
+#hip_location_table th {
+    text-align: center;
+    padding: 5px;
 }
+
+#hip_location_table td {
+    padding: 0;
+}
+
+#hip_location_table * input {
+    background: none;
+    border: none;
+    padding: 15px;
+    width: 100%;
+}
+
 #hip_location_table th {
     background: #D2D6A4;
 }
+
 #hip_location_table tbody tr:nth-child(2n+1) {
     background: #EEF2B8;
 }
+
 #hip_location_table tbody tr:nth-child(2n) {
     background: #EDEFD0;
 }
+
 #hip_location_table td.edit {
     background: #ff8;
 }

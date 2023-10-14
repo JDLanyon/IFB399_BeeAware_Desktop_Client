@@ -1,3 +1,15 @@
+
+// Ideally one of these would be used to load all tables on page load,
+// but due to the nature of this project, this script exists after page load.
+
+//window.onload = () => {
+//    hip_resyncTable("locations");
+//};
+
+//document.addEventListener("DOMContentLoaded", function () {
+//    hip_resyncTable("locations");
+//});
+
 // Switch to sub screens within the module
 function hip_switchScreen(screen_name) {
     var pages = document.getElementsByClassName("hip_screen");
@@ -6,26 +18,80 @@ function hip_switchScreen(screen_name) {
         pages[i].style.display = "none";
     }
     shownScreen.style.display = "block";
-};
 
-function hip_addRow(table) {
-    if (table == "locations") {
-        var html_table = document.getElementById("hip_location_table");
-        // empty row html string (this is silly)
-        let next_ID = html_table.children[1].children.length + 1;
-
-        // 1 isn't the user id and next_ID is a bad way of displaying addressID for new rows.
-        let table_body = "\n<tr>\n<th>" + next_ID + "</th><th>" + 1 + "</th>";
-        for (let i = 0; i < 9; i++) {
-            table_body += "<td contenteditable=\"true\"></td>";
-        }
-        table_body += "<th></th>\n</tr>";
-
-        html_table.children[1].insertAdjacentHTML('beforeend', table_body);
-    } else {
-        return;
-    }
+    // resync tables when opening screens.
+    if (screen_name == "hip_location_setup")
+        hip_resyncTable("locations");
 }
+
+function hip_newEntry(table) {
+    if (table == "locations") {
+        let html_table = document.getElementById("hip_location_table");
+
+        // find the lowest available address id
+        let lowest_address_id = 1;
+        let address_ids = [];
+        // start at 1 to skip header row
+        for (let i = 0; i < html_table.children[1].childElementCount; i++) {
+            // This is stupid but it selects the right thing assuming the table structure doesn't change.
+            address_ids.push(parseInt(html_table.children[1].children[i].children[1].innerHTML))
+        }
+        // once added all address ids, sort them and check for the lowest.
+        address_ids.sort().forEach((address) => {
+            if (lowest_address_id == address) {
+                lowest_address_id++;
+            }
+            else return;
+        });
+
+        console.log(lowest_address_id)
+
+        // get current date in preferred string format
+        const current_date = new Date()
+        const formatted_date = current_date.getFullYear() + "-" +
+            String(current_date.getMonth()).padStart(2, '0') + "-" +
+            String(current_date.getDate()).padStart(2, '0') + "T" +
+            String(current_date.getHours()).padStart(2, '0') + ":" +
+            String(current_date.getMinutes()).padStart(2, '0') + ":" +
+            String(current_date.getSeconds()).padStart(2, '0')
+
+        const row_body = `<tr>
+                        <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th>` + lowest_address_id + `</th> <!-- AddressID -->
+                        <th>1</th> <!-- UserID -->
+                        <td><input type="text" maxlength="5"></td> <!-- AddressType -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address1 -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address2 -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address3 -->
+                        <td><input type="text" maxlength="25"></td> <!-- City -->
+                        <td><input type="text" maxlength="5"></td> <!-- PostCode -->
+                        <td><input type="text" maxlength="25"></td> <!-- RegionalCouncil -->
+                        <td><input type="text" maxlength="5"></td> <!-- State -->
+                        <td><input type="text" maxlength="5" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Country -->
+                        <th>` + formatted_date + `</th> <!-- PostDate -->
+                    </tr>`
+
+        html_table.children[1].insertAdjacentHTML('beforeend', row_body);
+    } else return;
+}
+
+//function hip_addRow(table) {
+//    if (table == "locations") {
+//        let html_table = document.getElementById("hip_location_table");
+//        // empty row html string (this is silly)
+//        let next_ID = html_table.children[1].children.length + 1;
+//        console.log(html_table.children[1]);
+
+//        // 1 isn't the user id and next_ID is a bad way of displaying addressID for new rows.
+//        let table_body = "\n<tr>\n<th>" + next_ID + "</th><th>" + 1 + "</th>";
+//        for (let i = 0; i < 9; i++) {
+//            table_body += "<td contenteditable=\"true\"></td>";
+//        }
+//        table_body += "<th></th>\n</tr>";
+
+//        html_table.children[1].insertAdjacentHTML('beforeend', table_body);
+//    } else return;
+//}
 
 function hip_delRow(table) {
     if (table == "locations") {
@@ -42,7 +108,7 @@ function hip_delRow(table) {
 // Populates table with data from the database
 function hip_resyncTable(table) {
     // check that the user wants to resync the table.
-    if (window.confirm("This will reset any modifications you have made. Are you sure you want to resync the table?") == false)
+    if (window.confirm("Resyncing tables will reset any modifications you have made. Are you sure?") == false)
         return;
 
     if (table == "locations") { // fetch hive locations from database.
@@ -63,19 +129,36 @@ function hip_resyncTable(table) {
                             // build table body from data
                             let table_body = "";
                             data.forEach(function (row, row_val) {
-                                table_body += "<tr>\n<th>" + row["AddressID"]
-                                    + "</th><th>" + row["UserID"]
-                                    + "</th><td contenteditable=\"true\">" + row["AddressType"]
-                                    + "</td><td contenteditable=\"true\">" + row["Address1"]
-                                    + "</td><td contenteditable=\"true\">" + row["Address2"]
-                                    + "</td><td contenteditable=\"true\">" + row["Address3"]
-                                    + "</td><td contenteditable=\"true\">" + row["City"]
-                                    + "</td><td contenteditable=\"true\">" + row["PostCode"]
-                                    + "</td><td contenteditable=\"true\">" + row["RegionalCouncil"]
-                                    + "</td><td contenteditable=\"true\">" + row["State"]
-                                    + "</td><td contenteditable=\"true\">" + row["Country"]
-                                    + "</td><th>" + row["PostDate"]
-                                    + "</th>\n</tr>";
+                                table_body += `<tr>
+                                    <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                                    <th>` + row["AddressID"] + `</th> <!-- AddressID -->
+                                    <th>` + row["UserID"] + `</th> <!-- UserID -->
+                                    <td><input type="text" maxlength="5" value="` + row["AddressType"] + `"></td> <!-- AddressType -->
+                                    <td><input type="text" maxlength="50" value="` + row["Address1"] + `"></td> <!-- Address1 -->
+                                    <td><input type="text" maxlength="50" value="` + row["Address2"] + `"></td> <!-- Address2 -->
+                                    <td><input type="text" maxlength="50" value="` + row["Address3"] + `"></td> <!-- Address3 -->
+                                    <td><input type="text" maxlength="25" value="` + row["City"] + `"></td> <!-- City -->
+                                    <td><input type="text" maxlength="5" value="` + row["PostCode"] + `"></td> <!-- PostCode -->
+                                    <td><input type="text" maxlength="25" value="` + row["RegionalCouncil"] + `"></td> <!-- RegionalCouncil -->
+                                    <td><input type="text" maxlength="5" value="` + row["State"] + `"></td> <!-- State -->
+                                    <td><input type="text" maxlength="5" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Country"] + `"></td> <!-- Country -->
+                                    <th>` + row["PostDate"] + `</th> <!-- PostDate -->
+                                </tr>`
+
+                                //table_body += "<tr>\n<th>"
+                                //    + "</th><th>" + row["AddressID"]
+                                //    + "</th><th>" + row["UserID"]
+                                //    + "</th><td contenteditable=\"true\">" + row["AddressType"]
+                                //    + "</td><td contenteditable=\"true\">" + row["Address1"]
+                                //    + "</td><td contenteditable=\"true\">" + row["Address2"]
+                                //    + "</td><td contenteditable=\"true\">" + row["Address3"]
+                                //    + "</td><td contenteditable=\"true\">" + row["City"]
+                                //    + "</td><td contenteditable=\"true\">" + row["PostCode"]
+                                //    + "</td><td contenteditable=\"true\">" + row["RegionalCouncil"]
+                                //    + "</td><td contenteditable=\"true\">" + row["State"]
+                                //    + "</td><td contenteditable=\"true\">" + row["Country"]
+                                //    + "</td><th>" + row["PostDate"]
+                                //    + "</th>\n</tr>";
                             })
 
                             // replace current body with new body
@@ -108,18 +191,18 @@ function hip_uploadTable(table) {
             let html_row_data = html_table_data[i].children;
             var json_row = {};
 
-            json_row.AddressID = html_table_data[i].children[0].innerHTML;
-            json_row.UserID = html_table_data[i].children[1].innerHTML;
-            json_row.AddressType = html_table_data[i].children[2].innerHTML;
-            json_row.Address1 = html_table_data[i].children[3].innerHTML;
-            json_row.Address2 = html_table_data[i].children[4].innerHTML;
-            json_row.Address3 = html_table_data[i].children[5].innerHTML;
-            json_row.City = html_table_data[i].children[6].innerHTML;
-            json_row.PostCode = html_table_data[i].children[7].innerHTML;
-            json_row.RegionalCouncil = html_table_data[i].children[8].innerHTML;
-            json_row.State = html_table_data[i].children[9].innerHTML;
-            json_row.Country = html_table_data[i].children[10].innerHTML;
-            json_row.PostDate = html_table_data[i].children[11].innerHTML;
+            json_row.AddressID = html_table_data[i].children[1].innerHTML;
+            json_row.UserID = html_table_data[i].children[2].innerHTML;
+            json_row.AddressType = html_table_data[i].children[3].firstChild.value;
+            json_row.Address1 = html_table_data[i].children[4].firstChild.value;
+            json_row.Address2 = html_table_data[i].children[5].firstChild.value;
+            json_row.Address3 = html_table_data[i].children[6].firstChild.value;
+            json_row.City = html_table_data[i].children[7].firstChild.value;
+            json_row.PostCode = html_table_data[i].children[8].firstChild.value;
+            json_row.RegionalCouncil = html_table_data[i].children[9].firstChild.value;
+            json_row.State = html_table_data[i].children[10].firstChild.value;
+            json_row.Country = html_table_data[i].children[11].firstChild.value;
+            json_row.PostDate = html_table_data[i].children[12].innerHTML;
 
             json_table.push(json_row); // add row entry to list
 
@@ -170,80 +253,6 @@ function hip_uploadTable(table) {
     }
 }
 
-// table editing is from https://code-boxx.com/editable-html-table/
-
-// Edit cells in a table
-window.addEventListener("DOMContentLoaded", () => {
-    for (let cell of document.querySelectorAll(".hip_table td")) {
-        cell.ondblclick = () => editable.edit(cell);
-    }
-})
-
-// Convert a cell to be an editable field
-var editable = {
-    // (B) PROPERTIES
-    selected: null, // current selected cell
-    value: "", // current selected cell value
-
-    // (C) "CONVERT" TO EDITABLE CELL
-    edit: cell => {
-        // (C1) REMOVE "DOUBLE CLICK TO EDIT"
-        cell.ondblclick = "";
-
-        // (C2) EDITABLE CONTENT
-        cell.contentEditable = true;
-        cell.focus();
-
-        // (C3) "MARK" CURRENT SELECTED CELL
-        cell.classList.add("edit");
-        editable.selected = cell;
-        editable.value = cell.innerHTML;
-
-        // (C4) PRESS ENTER/ESC OR CLICK OUTSIDE TO END EDIT
-        window.addEventListener("click", editable.close);
-        cell.onkeydown = evt => {
-            if (evt.key == "Enter" || evt.key == "Escape") {
-                editable.close(evt.key == "Enter" ? true : false);
-                return false;
-            }
-        };
-    },
-    // ...
-};
-
-// (D) END "EDIT MODE"
-close: evt => {
-    if (evt.target != editable.selected) {
-        // (D1) CANCEL - RESTORE PREVIOUS VALUE
-        if (evt === false) {
-            editable.selected.innerHTML = editable.value;
-        }
-
-        // (D2) REMOVE "EDITABLE"
-        window.getSelection().removeAllRanges();
-        editable.selected.contentEditable = false;
-
-        // (D3) RESTORE CLICK LISTENERS
-        window.removeEventListener("click", editable.close);
-        let cell = editable.selected;
-        cell.onkeydown = "";
-        cell.ondblclick = () => editable.edit(cell);
-
-        // (D4) "UNMARK" CURRENT SELECTED CELL
-        editable.selected.classList.remove("edit");
-        editable.selected = null;
-        editable.value = "";
-
-        // (D5) DO WHATEVER YOU NEED
-        if (evt !== false) {
-            console.log(cell.innerHTML);
-            // check value?
-            // send value to server?
-            // update calculations in table?
-        }
-    }
-}
-
 
 // Example JS
 function exampleTest() {
@@ -266,7 +275,7 @@ function exampleTest() {
         ).catch(function (err) {
 
         })
-};
+}
 
 /*
 function login(event) {

@@ -25,13 +25,14 @@
             <!-- Control buttons -->
             <button onclick="hip_resyncTable('locations')" style="background:#D2D6A4">Resync table</button>
             <button onclick="hip_uploadTable('locations')" style="background:#D2D6A4">Upload table</button>
-            <button onclick="hip_addRow('locations')" style="background:#D2D6A4">Add row</button>
-            <button onclick="hip_delRow('locations')" style="background:#D2D6A4">Delete row</button>
+            <button onclick="hip_newEntry('locations')" style="background:#D2D6A4">Add row</button>
+            <!--<button onclick="hip_delRow('locations')" style="background:#D2D6A4">Delete row</button>-->
 
             <!-- Table of locations -->
             <table class="hip_table" id="hip_location_table">
                 <thead>
                     <tr>
+                        <th>-</th>
                         <th>mms_AddressID</th>
                         <th>mms_UserID</th>
                         <th>mms_AddressType</th>
@@ -48,18 +49,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th>1</th>
-                        <th>1</th>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <td contenteditable='true'></td>
-                        <th></th>
+                        <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th>1</th> <!-- AddressID -->
+                        <th>1</th> <!-- UserID -->
+                        <td><input type="text" maxlength="5"></td> <!-- AddressType -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address1 -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address2 -->
+                        <td><input type="text" maxlength="50"></td> <!-- Address3 -->
+                        <td><input type="text" maxlength="25"></td> <!-- City -->
+                        <td><input type="text" maxlength="5"></td> <!-- PostCode -->
+                        <td><input type="text" maxlength="25"></td> <!-- RegionalCouncil -->
+                        <td><input type="text" maxlength="5"></td> <!-- State -->
+                        <td><input type="text" maxlength="5" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Country -->
+                        <th>0000-00-00T00:00:00</th> <!-- PostDate -->
                     </tr>
                 </tbody>
             </table>
