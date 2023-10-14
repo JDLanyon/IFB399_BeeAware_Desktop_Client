@@ -19,10 +19,13 @@ function switchInnerPage(name) {
 
 
 function switchInnerPageFlex(name) {
-    var pages = document.getElementsByClassName("innerPages");
+    var pages = document.getElementsByClassName("innerPages1");
     var shownPage = document.getElementById(name);
     for (var i = 0; i < pages.length; i++) {
         pages[i].style.display = "none";
     }
-    shownPage.style.display = "flex";
+    // if shownPage is not null
+    if (shownPage != 'ShowNone' && shownPage !== null){
+        shownPage.style.display = "flex";
+    }
 }

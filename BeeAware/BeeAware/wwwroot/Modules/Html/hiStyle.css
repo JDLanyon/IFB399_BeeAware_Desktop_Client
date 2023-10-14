@@ -1,59 +1,72 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  list-style: none;
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto;
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-body {
-  min-height: 100vh;
-  background: #212533;
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  /* padding: 20px; */
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content .db_container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.container {
-  display: flex; 
   flex-direction: row;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
-.sidebar {
+.modal-content .sidebar {
   width: 10%;
   background-color: #ffd699;
   display: flex;
   align-items: center;
 }
 
-.subnav {
+.modal-content .subnav {
   width: 10%;
-  background-color: #ffffcc; 
+  background-color: #ffffcc;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; 
 }
 
-.subnav button{
+.modal-content .subnav button {
   margin-top: 10px;
-  height: 80px;
+  height: 80px;  
 }
 
-/* .sub_buttons{
-  width: 100%;
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-} */
-
-.sidebar button{
+.modal-content .sidebar button {
   background-color: rgb(228, 147, 81);
   height: 60px;
 }
 
-
-button {
+.modal-content button {
   display: block;
   width: 100%;
   margin-bottom: 10px;
@@ -65,29 +78,30 @@ button {
   border-radius: 10px;
 }
 
-.main-nav-btn {
-  font-weight: bold;
+.modal-content .main-nav-btn {
+  font-weight: bold; 
 }
 
-#setup{
+.modal-content #setup {
   background-color: rgb(253, 243, 208);
   display: flex;
   flex-direction: column;
   width: 100%;
-  justify-content: center;
+  justify-content: center; 
 }
 
-.notice{
+.modal-content .notice {
   text-align: center;
   color: rgb(131, 131, 131);
 }
 
-#setup button{
+.modal-content #setup button {
   height: 60px;
   margin: 20px;
+  width: 80%;
 }
 
-#About{
+.modal-content #About {
   background-color: white;
   width: 100%;
   height: 100%;
@@ -97,23 +111,6 @@ button {
   text-align: center;
 }
 
-#inspection{
-  background-color: white;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.locations{
-  width: 30%;
-  background-color: rgb(253, 243, 208);
-  height: 90%;
-  border-radius: 10px;
-  margin: 20px;
-  text-align: center;
-}
 
 .hives{
   width: 60%;
@@ -124,8 +121,23 @@ button {
   text-align: center;
 }
 
+.locations{
+  width: 30%;
+  height: 90%;
+  background-color: rgb(253, 243, 208);
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
 .locations h1{
   margin-bottom: 30px;
+}
+
+.locations .row{
+  display: flex;
+  flex-direction: row;
+  /* border: 1px solid #000; */
 }
 
 .row p{
@@ -141,13 +153,11 @@ button {
   align-items: center;
 }
 .row input{
-  width: 10%;
+  width: 5%;
+  margin-left: 50px;
+  margin-bottom: 20px;
 }
 
-.locations .row{
-  display: flex;
-  flex-direction: row;
-}
 
 .hivesInfo{
   margin: 20px;
@@ -158,8 +168,18 @@ button {
 
 .hiveInfo{
   width: 20%;
-  height: 180px;
+  height: 20px;
   background-color: #ffcc66;
   border-radius: 10px;
   margin: 20px;
 }
+
+#inspection{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+

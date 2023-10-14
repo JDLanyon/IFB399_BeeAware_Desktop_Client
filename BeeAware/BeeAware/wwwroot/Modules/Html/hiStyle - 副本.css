@@ -1,0 +1,142 @@
+.container {
+  display: flex; 
+  flex-direction: row;
+  width: 100%;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 10%;
+  background-color: #ffd699;
+  display: flex;
+  align-items: center;
+}
+
+.subnav {
+  width: 10%;
+  background-color: #ffffcc; 
+  display: flex;
+  flex-direction: column;
+}
+
+.subnav button{
+  margin-top: 10px;
+  height: 80px;
+}
+
+.sidebar button{
+  background-color: rgb(228, 147, 81);
+  height: 60px;
+}
+
+
+button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  background-color: #ffcc66;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border: none;
+  border-radius: 10px;
+}
+
+.main-nav-btn {
+  font-weight: bold;
+}
+
+#setup{
+  background-color: rgb(253, 243, 208);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+}
+
+.notice{
+  text-align: center;
+  color: rgb(131, 131, 131);
+}
+
+#setup button{
+  height: 60px;
+  margin: 20px;
+}
+
+#About{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#inspection{
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.locations{
+  width: 30%;
+  background-color: rgb(253, 243, 208);
+  height: 90%;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
+.hives{
+  width: 60%;
+  background-color: rgb(253, 243, 208);
+  height: 90%;
+  border-radius: 10px;
+  margin: 20px;
+  text-align: center;
+}
+
+.locations h1{
+  margin-bottom: 30px;
+}
+
+.row p{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.row button{
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.row input{
+  width: 10%;
+}
+
+.locations .row{
+  display: flex;
+  flex-direction: row;
+}
+
+.hivesInfo{
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.hiveInfo{
+  width: 20%;
+  height: 180px;
+  background-color: #ffcc66;
+  border-radius: 10px;
+  margin: 20px;
+}
