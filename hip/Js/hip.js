@@ -20,13 +20,13 @@ function hip_switchScreen(screen_name) {
     shownScreen.style.display = "block";
 
     // resync tables when opening screens.
-    if (screen_name == "hip_location_setup")
-        hip_resyncTable("locations");
+    if (screen_name == "hip_mms_locations")
+        hip_resyncTable("mms_locations");
 }
 
 function hip_newEntry(table) {
-    if (table == "locations") {
-        let html_table = document.getElementById("hip_location_table");
+    if (table == "mms_locations") {
+        let html_table = document.getElementById("hip_mms_locations_table");
 
         // find the lowest available address id
         let lowest_address_id = 1;
@@ -56,7 +56,7 @@ function hip_newEntry(table) {
             String(current_date.getSeconds()).padStart(2, '0')
 
         const row_body = `<tr>
-                        <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
                         <th>` + lowest_address_id + `</th> <!-- AddressID -->
                         <th>1</th> <!-- UserID -->
                         <td><input type="text" maxlength="5"></td> <!-- AddressType -->
@@ -94,7 +94,7 @@ function hip_newEntry(table) {
 //}
 
 function hip_delRow(table) {
-    if (table == "locations") {
+    if (table == "mms_locations") {
         var html_table = document.getElementById("hip_location_table");
         // delete the last row
         let next_ID = html_table.children[1].removeChild(html_table.children[1].lastChild);
@@ -111,7 +111,7 @@ function hip_resyncTable(table) {
     if (window.confirm("Resyncing tables will reset any modifications you have made. Are you sure?") == false)
         return;
 
-    if (table == "locations") { // fetch hive locations from database.
+    if (table == "mms_locations") { // fetch hive locations from database.
 
         fetch("/api/hip/getLocations", { // fetch to the api route that is provided in backend, with get if you need
             referer: 'about:client',
@@ -124,13 +124,13 @@ function hip_resyncTable(table) {
                         .then(data => {
 
                             // Rebuild table depending on the existing data
-                            var html_table = document.getElementById("hip_location_table");
+                            var html_table = document.getElementById("hip_mms_locations_table");
 
                             // build table body from data
                             let table_body = "";
                             data.forEach(function (row, row_val) {
                                 table_body += `<tr>
-                                    <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                                    <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
                                     <th>` + row["AddressID"] + `</th> <!-- AddressID -->
                                     <th>` + row["UserID"] + `</th> <!-- UserID -->
                                     <td><input type="text" maxlength="5" value="` + row["AddressType"] + `"></td> <!-- AddressType -->
@@ -182,8 +182,8 @@ function hip_uploadTable(table) {
     if (window.confirm("Are you sure you want to upload the table? Previous entries will not be saved.") == false)
         return;
 
-    if (table == "locations") { // fetch hive locations from database.
-        let html_table_data = document.getElementById("hip_location_table").rows;
+    if (table == "mms_locations") { // fetch hive locations from database.
+        let html_table_data = document.getElementById("hip_mms_locations_table").rows;
         let json_table = [];
         console.log(html_table_data);
 

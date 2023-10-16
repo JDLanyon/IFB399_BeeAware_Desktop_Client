@@ -5,9 +5,9 @@
     <!-- Sidebar -->
     <div id="hip_sidebar">
         <div id="hip_screenButtons">
-            <a onclick="hip_switchScreen('hip_global_setup')">Global setup</a>
-            <a onclick="hip_switchScreen('hip_location_setup')">Locations Table</a>
-            <a onclick="hip_switchScreen('hip_hive_setup')">Hives</a>
+            <a onclick="hip_switchScreen('hip_global_setup')">Information</a>
+            <a onclick="hip_switchScreen('hip_mms_locations')">mms_locations</a>
+            <a onclick="hip_switchScreen('hip_hive_setup')">hip_HiveHeader</a>
         </div>
     </div>
 
@@ -16,20 +16,20 @@
 
         <div id="hip_global_setup" class="hip_screen">
             <h1 id="hip_PageTitle">Hive Inspections - Global Setup</h1>
-            <p>This is a paragraph.</p>
+            <p>This page will contain information about this module.</p>
             <button onclick="exampleTest()">this is a test button</button>
         </div>
 
-        <div id="hip_location_setup" class="hip_screen" style="display: none;">
-            <h1 id="hip_PageTitle">Hive Inspections - Locations</h1>
+        <div id="hip_mms_locations" class="hip_screen" style="display: none;">
+            <h1>Hive Inspections - Locations</h1>
             <!-- Control buttons -->
-            <button onclick="hip_resyncTable('locations')" style="background:#D2D6A4">Resync table</button>
-            <button onclick="hip_uploadTable('locations')" style="background:#D2D6A4">Upload table</button>
-            <button onclick="hip_newEntry('locations')" style="background:#D2D6A4">Add row</button>
+            <button onclick="hip_resyncTable('mms_locations')" style="background:#D2D6A4">Resync table</button>
+            <button onclick="hip_uploadTable('mms_locations')" style="background:#D2D6A4">Upload table</button>
+            <button onclick="hip_newEntry('mms_locations')" style="background:#D2D6A4">Add row</button>
             <!--<button onclick="hip_delRow('locations')" style="background:#D2D6A4">Delete row</button>-->
 
             <!-- Table of locations -->
-            <table class="hip_table" id="hip_location_table">
+            <table class="hip_table" id="hip_mms_locations_table">
                 <thead>
                     <tr>
                         <th>-</th>
@@ -49,7 +49,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <th id="hip_table_addremove"><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
                         <th>1</th> <!-- AddressID -->
                         <th>1</th> <!-- UserID -->
                         <td><input type="text" maxlength="5"></td> <!-- AddressType -->
