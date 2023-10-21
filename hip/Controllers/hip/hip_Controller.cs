@@ -38,7 +38,7 @@ namespace BeeAware.Controllers
         }
 
         [HttpGet]
-        [Route("getLocations")]
+        [Route("get_mms_Address")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ContentResult GetLocations()
         {
@@ -76,7 +76,7 @@ namespace BeeAware.Controllers
         }
 
         [HttpPost]
-        [Route("postLocations")]
+        [Route("post_mms_Address")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ContentResult PostLocations(List<hip_Location> location_tables)
         {
@@ -86,8 +86,12 @@ namespace BeeAware.Controllers
                 //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
                 string json = JsonSerializer.Serialize(location_tables).ToString();
 
-                SqlCommand cmd = new SqlCommand($"DELETE FROM mms_Address DECLARE @JSON VARCHAR(MAX) = '{json}' INSERT INTO mms_Address SELECT * FROM OPENJSON(@JSON) WITH (AddressID INT, UserID INT, AddressType VARCHAR(5), Address1 VARCHAR(50), Address2 VARCHAR(50), Address3 VARCHAR(50), City VARCHAR(25), PostCode VARCHAR(5), RegionalCouncil VARCHAR(25), State VARCHAR(5), Country INT, PostDate DATE)", con);
-                // TODO: add all entries from location_tables
+                SqlCommand cmd = new SqlCommand($"DELETE FROM mms_Address" +
+                    $"DECLARE @JSON VARCHAR(MAX) = '{json}'" +
+                    $"INSERT INTO mms_Address SELECT * FROM OPENJSON(@JSON) WITH " +
+                    $"(AddressID INT, UserID INT, AddressType VARCHAR(5), Address1 VARCHAR(50), " +
+                    $"Address2 VARCHAR(50), Address3 VARCHAR(50), City VARCHAR(25), PostCode VARCHAR(5), " +
+                    $"RegionalCouncil VARCHAR(25), State VARCHAR(5), Country INT, PostDate DATE)", con);
 
                 con.Open();
                 //int rows_affected = delete_cmd.ExecuteNonQuery();

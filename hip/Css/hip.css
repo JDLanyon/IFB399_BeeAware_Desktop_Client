@@ -2,14 +2,22 @@
 #hip_sidebar {
     z-index: 1;
     height: 100%;
-    width: 150px;
+    max-width: 150px;
     position: fixed;
     top: 117px;
     left: 200px;
     background-color: #EEF2B8;
     overflow-x: hidden;
     padding-top: 40px;
+    transition: max-width 0.3s;
     /* border-radius: 0 15px 0 0; */
+}
+
+#hip_sidebar:hover {
+    max-width: 250px;
+}
+#hip_sidebar:hover::after {
+    max-width: 150px;
 }
 
 #hip_sidebar * {
@@ -36,10 +44,17 @@
     z-index: -1;
 }
 
+.hip_screen button {
+    background: #D2D6A4;
+}
 
-/*Location screen*/
+.hip_screen button:hover {
+    background: #eef2b8;
+}
+
+/* Table styles */
 .hip_table {
-    margin: 10px auto;
+    margin: 10px 0;
 }
 
 .hip_table * {

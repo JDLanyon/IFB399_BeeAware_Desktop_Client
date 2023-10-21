@@ -5,46 +5,48 @@
     <!-- Sidebar -->
     <div id="hip_sidebar">
         <div id="hip_screenButtons">
-            <a onclick="hip_switchScreen('hip_global_setup')">Information</a>
-            <a onclick="hip_switchScreen('hip_mms_locations')">mms_locations</a>
-            <a onclick="hip_switchScreen('hip_hive_setup')">hip_HiveHeader</a>
+            <a onclick="hip_switchScreen('hip_Information')">Information</a>
+            <a onclick="hip_switchScreen('hip_mms_Address')">mms_Address</a>
+            <a onclick="hip_switchScreen('hip_HiveHeader')">hip_HiveHeader</a>
+            <a onclick="hip_switchScreen('hip_HiveInspectiondetails')">hip_HiveInspectiondetails</a>
+            <a onclick="hip_switchScreen('hip_HiveHealth')">hip_HiveHealth</a>
+            <a onclick="hip_switchScreen('hip_HiveInspectionNotes')">hip_HiveInspectionNotes</a>
         </div>
     </div>
 
     <!-- Content -->
     <div id="hip_content">
 
-        <div id="hip_global_setup" class="hip_screen">
-            <h1 id="hip_PageTitle">Hive Inspections - Global Setup</h1>
+        <div id="hip_Information" class="hip_screen">
+            <h1>Hive Inspections - Information</h1>
             <p>This page will contain information about this module.</p>
             <button onclick="exampleTest()">this is a test button</button>
         </div>
 
-        <div id="hip_mms_locations" class="hip_screen" style="display: none;">
-            <h1>Hive Inspections - Locations</h1>
+        <div id="hip_mms_Address" class="hip_screen" style="display: none;">
+            <h1>Hive Inspections - mms_Address</h1>
             <!-- Control buttons -->
-            <button onclick="hip_resyncTable('mms_locations')" style="background:#D2D6A4">Resync table</button>
-            <button onclick="hip_uploadTable('mms_locations')" style="background:#D2D6A4">Upload table</button>
-            <button onclick="hip_newEntry('mms_locations')" style="background:#D2D6A4">Add row</button>
+            <button onclick="hip_resyncTable('mms_Address')">Resync table</button>
+            <button onclick="hip_uploadTable('mms_Address')">Upload table</button>
+            <button onclick="hip_newEntry('mms_Address')">Add row</button>
             <!--<button onclick="hip_delRow('locations')" style="background:#D2D6A4">Delete row</button>-->
-
-            <!-- Table of locations -->
-            <table class="hip_table" id="hip_mms_locations_table">
+            <!-- Table -->
+            <table class="hip_table" id="hip_mms_Address_table">
                 <thead>
                     <tr>
                         <th>-</th>
-                        <th>mms_AddressID</th>
-                        <th>mms_UserID</th>
-                        <th>mms_AddressType</th>
-                        <th>mms_Address1</th>
-                        <th>mms_Address2</th>
-                        <th>mms_Address3</th>
-                        <th>mms_City</th>
-                        <th>mms_PostCode</th>
-                        <th>mms_RegionalCouncil</th>
-                        <th>mms_State</th>
-                        <th>mms_Country</th>
-                        <th>mms_PostDate</th>
+                        <th>AddressID</th>
+                        <th>UserID</th>
+                        <th>AddressType</th>
+                        <th>Address1</th>
+                        <th>Address2</th>
+                        <th>Address3</th>
+                        <th>City</th>
+                        <th>PostCode</th>
+                        <th>RegionalCouncil</th>
+                        <th>State</th>
+                        <th>Country</th>
+                        <th>PostDate</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,10 +69,174 @@
             </table>
         </div>
 
-        <div id="hip_hive_setup" class="hip_screen" style="display: none;">
-            <h1 id="hip_PageTitle">Hive Inspections - Hives</h1>
-            <p>This is a paragraph.</p>
-            <button onclick="exampleTest()">this is a test button</button>
+        <div id="hip_HiveHeader" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveHeader</h1>
+            <!-- Control buttons -->
+            <button onclick="hip_resyncTable('hip_HiveHeader')">Resync table</button>
+            <button onclick="hip_uploadTable('hip_HiveHeader')">Upload table</button>
+            <button onclick="hip_newEntry('hip_HiveHeader')">Add row</button>
+            <!-- Table -->
+            <table class="hip_table" id="hip_HiveHeader_table">
+                <thead>
+                    <tr>
+                        <th>-</th>
+                        <th>HiveID</th>
+                        <th>UserID</th>
+                        <th>HiveCode</th>
+                        <th>AddressID</th>
+                        <th>Supers_Cnt</th>
+                        <th>Frames</th>
+                        <th>Queen_Type</th>
+                        <th>Queen_DOB</th>
+                        <th>Queen_Clipped</th>
+                        <th>Queen_Marked</th>
+                        <th style="min-width: 400px">Notes</th>
+                        <th>Images</th>
+                        <th>PostDate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th>1</th> <!-- HiveID -->
+                        <th>1</th> <!-- UserID -->
+                        <td><input type="text" maxlength="10"></td> <!-- HiveCode -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- AddressID -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Supers_Cnt -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Frames -->
+                        <td><input type="text" maxlength="10"></td> <!-- Queen_Type -->
+                        <td><input type="text" maxlength="25"></td> <!-- Queen_DOB -->
+                        <td><input type="checkbox"></td> <!-- Queen_Clipped -->
+                        <td><input type="checkbox"></td> <!-- Queen_Marked -->
+                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
+                        <th>Not available.</th> <!-- Images -->
+                        <th>0000-00-00T00:00:00</th> <!-- PostDate -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="hip_HiveInspectiondetails" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectiondetails</h1>
+            <!-- Control buttons -->
+            <button onclick="hip_resyncTable('hip_HiveInspectiondetails')">Resync table</button>
+            <button onclick="hip_uploadTable('hip_HiveInspectiondetails')">Upload table</button>
+            <button onclick="hip_newEntry('hip_HiveInspectiondetails')">Add row</button>
+            <!-- Table -->
+            <table class="hip_table" id="hip_HiveInspectiondetails_table">
+                <thead>
+                    <tr>
+                        <th>-</th>
+                        <th>InspectionID</th>
+                        <th>HiveID</th>
+                        <th>InspDate</th>
+                        <th>InspTime</th>
+                        <th>Condition</th>
+                        <th>Temperament</th>
+                        <th>Population</th>
+                        <th>FCnt_Honey</th>
+                        <th>FCnt_Brood</th>
+                        <th>FCnt_Pollen</th>
+                        <th>FCnt_Empty</th>
+                        <th>FCnt_Drone</th>
+                        <th>FCon_Honey</th>
+                        <th>FCon_Brood</th>
+                        <th>FCon_BroodPattern</th>
+                        <th>FCon_Eggs</th>
+                        <th>FCon_Pollen</th>
+                        <th>FCon_Empty</th>
+                        <th>FCon_Drone</th>
+                        <th style="min-width: 400px">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th>1</th> <!-- InspectionID -->
+                        <th>1</th> <!-- HiveID -->
+                        <td><input type="text" maxlength="25"></td> <!-- InspDate -->
+                        <td><input type="text" maxlength="7"></td> <!-- InspTime -->
+                        <td><input type="text" maxlength="10"></td> <!-- Condition -->
+                        <td><input type="text" maxlength="10"></td> <!-- Temperament -->
+                        <td><input type="text" maxlength="10"></td> <!-- Population -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCnt_Honey -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCnt_Brood -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCnt_Pollen -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCnt_Empty -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCnt_Drone -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Honey -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Brood -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_BroodPattern -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Eggs -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Pollen -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Empty -->
+                        <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- FCon_Drone -->
+                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="hip_HiveHealth" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveHealth</h1>
+            <!-- Control buttons -->
+            <button onclick="hip_resyncTable('hip_HiveHealth')">Resync table</button>
+            <button onclick="hip_uploadTable('hip_HiveHealth')">Upload table</button>
+            <button onclick="hip_newEntry('hip_HiveHealth')">Add row</button>
+            <!-- Table -->
+            <table class="hip_table" id="hip_HiveHealth_table">
+                <thead>
+                    <tr>
+                        <th>-</th>
+                        <th>HiveHealthID</th>
+                        <th>HiveInspectionID</th>
+                        <th>Date</th>
+                        <th>Irregularity</th>
+                        <th>Seriousness</th>
+                        <th style="min-width: 400px">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <th>1</th> <!-- HiveHealthID -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionID -->
+                        <td><input type="text" maxlength="25"></td> <!-- Date -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Irregularity -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- Seriousness -->
+                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="hip_HiveInspectionNotes" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectionNotes</h1>
+            <!-- Control buttons -->
+            <button onclick="hip_resyncTable('hip_HiveInspectionNotes')">Resync table</button>
+            <button onclick="hip_uploadTable('hip_HiveInspectionNotes')">Upload table</button>
+            <button onclick="hip_newEntry('hip_HiveInspectionNotes')">Add row</button>
+            <!-- Table -->
+            <table class="hip_table" id="hip_HiveInspectionNotes_table">
+                <thead>
+                    <tr>
+                        <th>-</th>
+                        <th>HiveInspectionNoteID</th>
+                        <th>HiveInspectionID</th>
+                        <th>Images</th>
+                        <th style="min-width: 400px">Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionNoteID -->
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionID -->
+                        <th>Not Available.</th> <!-- Images -->
+                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>
