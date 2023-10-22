@@ -40,18 +40,18 @@ namespace BeeAware.Controllers
         [HttpGet]
         [Route("get_mms_Address")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ContentResult GetLocations()
+        public ContentResult GetAddress()
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
             SqlCommand cmd = new SqlCommand("SELECT * FROM mms_Address;", con);
 
             con.Open();
             SqlDataReader read = cmd.ExecuteReader();
-            var result = new List<hip_Location>();
+            var result = new List<hip_mms_Address>();
 
             while (read.Read())
             {
-                var location = new hip_Location
+                var location = new hip_mms_Address
                 {
                     // IDs aren't needed.
                     AddressID = read.GetInt64(0),
@@ -78,20 +78,17 @@ namespace BeeAware.Controllers
         [HttpPost]
         [Route("post_mms_Address")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ContentResult PostLocations(List<hip_Location> location_tables)
+        public ContentResult PostAddress(List<hip_mms_Address> mms_address_tables)
         {
             SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
-            try
-            {
-                //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
-                string json = JsonSerializer.Serialize(location_tables).ToString();
 
-                SqlCommand cmd = new SqlCommand($"DELETE FROM mms_Address" +
-                    $"DECLARE @JSON VARCHAR(MAX) = '{json}'" +
-                    $"INSERT INTO mms_Address SELECT * FROM OPENJSON(@JSON) WITH " +
-                    $"(AddressID INT, UserID INT, AddressType VARCHAR(5), Address1 VARCHAR(50), " +
-                    $"Address2 VARCHAR(50), Address3 VARCHAR(50), City VARCHAR(25), PostCode VARCHAR(5), " +
-                    $"RegionalCouncil VARCHAR(25), State VARCHAR(5), Country INT, PostDate DATE)", con);
+                //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
+                string json = JsonSerializer.Serialize(mms_address_tables).ToString();
+
+                SqlCommand cmd = new SqlCommand(@$"DELETE FROM mms_Address DECLARE @JSON VARCHAR(MAX) = '{json}' 
+                    INSERT INTO mms_Address SELECT * FROM OPENJSON(@JSON)
+                    WITH (AddressID INT, UserID INT, AddressType VARCHAR(5), Address1 VARCHAR(50), Address2 VARCHAR(50), Address3 VARCHAR(50),
+                    City VARCHAR(25), PostCode VARCHAR(5), RegionalCouncil VARCHAR(25), State VARCHAR(5), Country INT, PostDate DATE)", con);
 
                 con.Open();
                 //int rows_affected = delete_cmd.ExecuteNonQuery();
@@ -102,43 +99,186 @@ namespace BeeAware.Controllers
                     throw new Exception("no rows affected.");
                 }
                 return new ContentResult { Content = JsonSerializer.Serialize("Successfully updated the table!"), StatusCode = 200 };
-            }
-            catch
-            {
-                return new ContentResult { Content = JsonSerializer.Serialize("table update failed."), StatusCode = 403 };
-            }
+
         }
-    }
 
-    /*[HttpGet]
-    [Route("Check")]
-    [ProducesResponseType(StatusCodes.Status200OK)] // passibile response
-    public ContentResult Check()
-    {
-        SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
-
-        SqlCommand cmd = new SqlCommand("select * from modules;", con);
-        con.Open();
-        SqlDataReader read = cmd.ExecuteReader();
-        var result = new List<Module>(); 
-        while (read.Read())
+        [HttpGet]
+        [Route("get_hip_HiveHeader")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult GetHiveHeader()
         {
-            var a_module = new Module
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+            SqlCommand cmd = new SqlCommand("SELECT * FROM hip_HiveHeader;", con);
+
+            con.Open();
+            SqlDataReader read = cmd.ExecuteReader();
+            var result = new List<hip_HiveHeader>();
+
+            while (read.Read())
             {
-                Name = read.GetString(1),
+                var header = new hip_HiveHeader
+                {
+                    // IDs aren't needed.
+                    HiveID = read.GetInt64(0),
+                    UserID = read.GetInt64(1),
+                    HiveCode = read.IsDBNull(2) ? null : read.GetString(2),
+                    AddressID = read.IsDBNull(3) ? null : read.GetInt64(3),
+                    Supers_Cnt = read.GetInt32(4),
+                    Frames = read.GetInt32(5),
+                    QType = read.IsDBNull(6) ? null : read.GetString(6),
+                    QDOB = read.IsDBNull(7) ? null : read.GetDateTime(7),
+                    QClipped = read.IsDBNull(8) ? null : read.GetBoolean(8),
+                    QMarked = read.IsDBNull(9) ? null : read.GetBoolean(9),
+                    Notes = read.IsDBNull(10) ? null : read.GetString(10),
+                    PostDate = read.IsDBNull(11) ? null : read.GetDateTime(11),
+                    //Images = read.IsDBNull(12) ? null : read.GetSqlBinary(12)
+                };
+                result.Add(header);
             };
-            result.Add(a_module);
-        };
-        read.Close();
-        con.Close();
-        List<string> returned = new List<string> { };
-        foreach (var module in result)
-        {
-            returned.Add(System.IO.File.ReadAllText("wwwroot/Modules/Html/"+module.Name+".html"));
+            read.Close();
+            con.Close();
+
+            return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
         }
 
-        return new ContentResult { Content = JsonSerializer.Serialize(returned), StatusCode = 200 };
-    }*/
-    // an example of a route function with sql command
+        [HttpGet]
+        [Route("post_hip_HiveHeader")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult PostHiveHeader(List<hip_HiveHeader> hip_HiveHeaders)
+        {
+            throw new NotImplementedException();
+        }
 
+        [HttpGet]
+        [Route("get_hip_HiveInspectionDetails")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult GetHiveInspectionDetails()
+        {
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+            SqlCommand cmd = new SqlCommand("SELECT * FROM hip_HiveInspectionDetail;", con);
+
+            con.Open();
+            SqlDataReader read = cmd.ExecuteReader();
+            var result = new List<hip_HiveInspectionDetail>();
+
+            while (read.Read())
+            {
+                var detail = new hip_HiveInspectionDetail
+                {
+                    // IDs aren't needed.
+                    InspectionID = read.GetInt64(0),
+                    HiveID = read.IsDBNull(1) ? null : read.GetInt64(1),
+                    InspDate = read.IsDBNull(2) ? null : read.GetDateTime(2),
+                    InspTime = read.IsDBNull(3) ? null : read.GetTimeSpan(3),
+                    Condition = read.IsDBNull(4) ? null : read.GetString(4),
+                    Temperament = read.IsDBNull(5) ? null : read.GetString(5),
+                    Population = read.IsDBNull(6) ? null : read.GetString(6),
+                    FCnt_Honey = read.IsDBNull(7) ? null : read.GetInt32(7),
+                    FCnt_Brood = read.IsDBNull(8) ? null : read.GetInt32(8),
+                    FCnt_Pollen = read.IsDBNull(9) ? null : read.GetInt32(9),
+                    FCnt_Empty = read.IsDBNull(10) ? null : read.GetInt32(10),
+                    FCnt_Drone = read.IsDBNull(11) ? null : read.GetInt32(11),
+                    FCon_Honey = read.IsDBNull(12) ? null : read.GetInt64(12),
+                    FCon_Brood = read.IsDBNull(13) ? null : read.GetInt64(13),
+                    FCon_BroodPattern = read.IsDBNull(14) ? null : read.GetInt64(14),
+                    FCon_Eggs = read.IsDBNull(15) ? null : read.GetInt64(15),
+                    FCon_Pollen = read.IsDBNull(16) ? null : read.GetInt64(16),
+                    FCon_Empty = read.IsDBNull(17) ? null : read.GetInt64(17),
+                    FCon_Drone = read.IsDBNull(18) ? null : read.GetInt64(18),
+                    Notes = read.IsDBNull(19) ? null : read.GetString(19)
+                };
+                result.Add(detail);
+            };
+            read.Close();
+            con.Close();
+
+            return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
+        }
+
+        [HttpGet]
+        [Route("post_hip_HiveInspectionDetails")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult PostHiveInspectionDetails(List<hip_HiveInspectionDetail> hip_HiveInspectionDetails)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("get_hip_HiveHealth")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult GetHiveHealth()
+        {
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+            SqlCommand cmd = new SqlCommand("SELECT * FROM hip_HiveHealth;", con);
+
+            con.Open();
+            SqlDataReader read = cmd.ExecuteReader();
+            var result = new List<hip_HiveHealth>();
+
+            while (read.Read())
+            {
+                var health = new hip_HiveHealth
+                {
+                    // IDs aren't needed.
+                    HiveHealthID = read.GetInt64(0),
+                    HiveInspectionID = read.GetInt64(1),
+                    Date = read.GetDateTime(2),
+                    Irregularity = read.IsDBNull(3) ? null : read.GetInt32(3),
+                    Seriousness = read.IsDBNull(4) ? null : read.GetInt32(4),
+                    Notes = read.IsDBNull(5) ? null : read.GetString(5)
+                };
+                result.Add(health);
+            };
+            read.Close();
+            con.Close();
+
+            return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
+        }
+
+        [HttpGet]
+        [Route("post_hip_HiveHealth")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ContentResult PostHiveHealth(List<hip_HiveHealth> hip_HiveHealths)
+        {
+            throw new NotImplementedException();
+        }
+
+        //[HttpGet]
+        //[Route("get_hip_hiveinspectionnotes")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //public ContentResult GetHiveInspectionNotes()
+        //{
+        //    SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+        //    SqlCommand cmd = new SqlCommand("SELECT * FROM hip_HiveInspectionNotes;", con);
+
+        //    con.Open();
+        //    SqlDataReader read = cmd.ExecuteReader();
+        //    var result = new List<hip_HiveInspectionNotes>();
+
+        //    while (read.Read())
+        //    {
+        //        var inspection_note = new hip_HiveInspectionNotes
+        //        {
+        //            // IDs aren't needed.
+        //            HiveInspectionNoteID = read.GetInt64(0),
+        //            HiveInspectionID = read.GetInt64(1),
+        //            Images = read.IsDBNull(2) ? null : read.GetSqlBinary(2),
+        //            Notes = read.IsDBNull(3) ? null : read.GetSqlBinary(3)
+        //        };
+        //        result.Add(inspection_note);
+        //    };
+        //    read.Close();
+        //    con.Close();
+
+        //    return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
+        //}
+
+        //[HttpGet]
+        //[Route("post_hip_hiveinspectionnotes")]
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //public ContentResult PostHiveInspectionNotes(List<hip_HiveInspectionNotes> hip_HiveInspectionNotes)
+        //{
+        //    throw new NotImplementedException();
+        //}
+    }
 }

@@ -73,6 +73,14 @@ This is quite an urgent issue as anyone can provide whatever data they wish.
 The security level values aren't utilized within this module, allowing for users with any security level to add and remove any entires in the 5 provided tables.
 </details>
 
+<details>
+  <summary><h3>SQLBinary</h3></summary>
+
+There is no front-end handling of this datatype. Ideally the user would be able to upload and preview images.
+
+As a result a "Not available" is displayed under image columns and sections for this are commented out.
+The HiveInspectionNotes table has also been removed as a result of this as the table proves useless without handling the SQLBinary datatype.
+</details>
 
 ---
 This is a **public** repository, however pull requests may not be accepted as this is a capstone project for QUT.

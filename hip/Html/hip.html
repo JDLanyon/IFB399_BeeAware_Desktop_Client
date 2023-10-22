@@ -8,9 +8,9 @@
             <a onclick="hip_switchScreen('hip_Information')">Information</a>
             <a onclick="hip_switchScreen('hip_mms_Address')">mms_Address</a>
             <a onclick="hip_switchScreen('hip_HiveHeader')">hip_HiveHeader</a>
-            <a onclick="hip_switchScreen('hip_HiveInspectiondetails')">hip_HiveInspectiondetails</a>
+            <a onclick="hip_switchScreen('hip_HiveInspectionDetails')">hip_HiveInspectiondetails</a>
             <a onclick="hip_switchScreen('hip_HiveHealth')">hip_HiveHealth</a>
-            <a onclick="hip_switchScreen('hip_HiveInspectionNotes')">hip_HiveInspectionNotes</a>
+            <!-- <a onclick="hip_switchScreen('hip_HiveInspectionNotes')">hip_HiveInspectionNotes</a> -->
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                         <th>PostCode</th>
                         <th>RegionalCouncil</th>
                         <th>State</th>
-                        <th>Country</th>
+                        <th>Country Code</th>
                         <th>PostDate</th>
                     </tr>
                 </thead>
@@ -116,21 +116,21 @@
             </table>
         </div>
 
-        <div id="hip_HiveInspectiondetails" class="hip_screen" style="display: none;">
-            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectiondetails</h1>
+        <div id="hip_HiveInspectionDetails" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectionDetails</h1>
             <!-- Control buttons -->
-            <button onclick="hip_resyncTable('hip_HiveInspectiondetails')">Resync table</button>
-            <button onclick="hip_uploadTable('hip_HiveInspectiondetails')">Upload table</button>
-            <button onclick="hip_newEntry('hip_HiveInspectiondetails')">Add row</button>
+            <button onclick="hip_resyncTable('hip_HiveInspectionDetails')">Resync table</button>
+            <button onclick="hip_uploadTable('hip_HiveInspectionDetails')">Upload table</button>
+            <button onclick="hip_newEntry('hip_HiveInspectionDetails')">Add row</button>
             <!-- Table -->
-            <table class="hip_table" id="hip_HiveInspectiondetails_table">
+            <table class="hip_table" id="hip_HiveInspectionDetails_table">
                 <thead>
                     <tr>
                         <th>-</th>
                         <th>InspectionID</th>
                         <th>HiveID</th>
-                        <th>InspDate</th>
-                        <th>InspTime</th>
+                        <th style="min-width: 200px">InspDate</th>
+                        <th style="min-width: 200px">InspTime</th>
                         <th>Condition</th>
                         <th>Temperament</th>
                         <th>Population</th>
@@ -210,14 +210,14 @@
             </table>
         </div>
 
-        <div id="hip_HiveInspectionNotes" class="hip_screen" style="display: none;">
-            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectionNotes</h1>
+        <!--<div id="hip_HiveInspectionNotes" class="hip_screen" style="display: none;">
+            <h1 id="hip_PageTitle">Hive Inspections - hip_HiveInspectionNotes</h1>-->
             <!-- Control buttons -->
-            <button onclick="hip_resyncTable('hip_HiveInspectionNotes')">Resync table</button>
+            <!--<button onclick="hip_resyncTable('hip_HiveInspectionNotes')">Resync table</button>
             <button onclick="hip_uploadTable('hip_HiveInspectionNotes')">Upload table</button>
-            <button onclick="hip_newEntry('hip_HiveInspectionNotes')">Add row</button>
+            <button onclick="hip_newEntry('hip_HiveInspectionNotes')">Add row</button>-->
             <!-- Table -->
-            <table class="hip_table" id="hip_HiveInspectionNotes_table">
+            <!--<table class="hip_table" id="hip_HiveInspectionNotes_table">
                 <thead>
                     <tr>
                         <th>-</th>
@@ -230,14 +230,14 @@
                 <tbody>
                     <tr>
                         <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
-                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionNoteID -->
-                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionID -->
-                        <th>Not Available.</th> <!-- Images -->
-                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
-                    </tr>
+                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td>--> <!-- HiveInspectionNoteID -->
+                        <!--<td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td>--> <!-- HiveInspectionID -->
+                        <!--<th>Not Available.</th>--> <!-- Images -->
+                        <!--<td><input type="text" maxlength="500"></td>--> <!-- Notes -->
+                    <!--</tr>
                 </tbody>
             </table>
-        </div>
+        </div>-->
 
     </div>
 

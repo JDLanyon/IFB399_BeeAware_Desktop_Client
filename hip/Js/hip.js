@@ -22,8 +22,6 @@ function hip_switchScreen(screen_name) {
     }
     shownScreen.style.display = "block";
 
-    // TODO: Get user ID.
-
 }
 
 // get current date in preferred string format
@@ -188,22 +186,32 @@ function hip_newEntry(table) {
                     </tr>`
 
         html_table.children[1].insertAdjacentHTML('beforeend', row_body);
-    }
-    else if (table == "hip_HiveInspectionNotes") {
-        let html_table = document.getElementById("hip_HiveInspectionNotes_table");
 
 
-        const row_body = `<tr>
-                        <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
-                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionNoteID -->
-                        <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionID -->
-                        <th>Not Available.</th> <!-- Images -->
-                        <td><input type="text" maxlength="500"></td> <!-- Notes -->
-                    </tr>`
+    // HiveInspectionNotes is disabled due to the only useful fields being sqlbinaries - which are not handled front end.
 
-        html_table.children[1].insertAdjacentHTML('beforeend', row_body);
+    //}
+    //else if (table == "hip_HiveInspectionNotes") {
+    //    let html_table = document.getElementById("hip_HiveInspectionNotes_table");
+
+
+    //    const row_body = `<tr>
+    //                    <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+    //                    <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionNoteID -->
+    //                    <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''"></td> <!-- HiveInspectionID -->
+    //                    <th>Not Available.</th> <!-- Images -->
+    //                    <td><input type="text" maxlength="500"></td> <!-- Notes -->
+    //                </tr>`
+
+    //    html_table.children[1].insertAdjacentHTML('beforeend', row_body);
+
+
     } else return;
 }
+
+
+
+// Old add row function
 
 //function hip_addRow(table) {
 //    if (table == "locations") {
@@ -248,47 +256,175 @@ function hip_resyncTable(table) {
             credentials: 'same-origin',
             headers: new Headers({ 'content-type': 'application/ json' }),
         })
+        .then(function (response) {
+            if (response.status == 200) {
+                response.json()
+                    .then(data => {
+
+                        // Rebuild table depending on the existing data
+                        var html_table = document.getElementById("hip_mms_Address_table");
+
+                        // build table body from data
+                        let table_body = "";
+                        data.forEach(function (row, row_val) {
+                            table_body += `<tr>
+                                <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                                <th>` + row["AddressID"] + `</th> <!-- AddressID -->
+                                <th>` + row["UserID"] + `</th> <!-- UserID -->
+                                <td><input type="text" maxlength="5" value="` + row["AddressType"] + `"></td> <!-- AddressType -->
+                                <td><input type="text" maxlength="50" value="` + row["Address1"] + `"></td> <!-- Address1 -->
+                                <td><input type="text" maxlength="50" value="` + row["Address2"] + `"></td> <!-- Address2 -->
+                                <td><input type="text" maxlength="50" value="` + row["Address3"] + `"></td> <!-- Address3 -->
+                                <td><input type="text" maxlength="25" value="` + row["City"] + `"></td> <!-- City -->
+                                <td><input type="text" maxlength="5" value="` + row["PostCode"] + `"></td> <!-- PostCode -->
+                                <td><input type="text" maxlength="25" value="` + row["RegionalCouncil"] + `"></td> <!-- RegionalCouncil -->
+                                <td><input type="text" maxlength="5" value="` + row["State"] + `"></td> <!-- State -->
+                                <td><input type="text" maxlength="5" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Country"] + `"></td> <!-- Country -->
+                                <th>` + row["PostDate"] + `</th> <!-- PostDate -->
+                            </tr>`
+                        })
+
+                        // replace current body with new body
+                        html_table.children[1].innerHTML = table_body;
+
+                    })
+            } else {
+                window.alert("failed!!")
+            }
+        }
+        ).catch(function (err) {
+            console.log(err);
+        });
+    }
+    else if (table == "hip_HiveHeader") {
+        fetch("/api/hip/get_hip_HiveHeader", { // fetch to the api route that is provided in backend, with get if you need
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+                response.json()
+                    .then(data => {
+
+                        // Rebuild table depending on the existing data
+                        var html_table = document.getElementById("hip_HiveHeader_table");
+
+                        // build table body from data
+                        let table_body = "";
+                        data.forEach(function (row, row_val) {
+                            let q_clipped = (row["QClipped"] == true) ? "checked" : "not_checked"
+                            let q_marked = (row["QMarked"] == true) ? "checked" : "not_checked"
+                            table_body += `<tr>
+                                <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                                <th>` + row["HiveID"] + `</th> <!-- HiveID -->
+                                <th>` + row["UserID"] + `</th> <!-- UserID -->
+                                <td><input type="text" maxlength="10" value="` + row["HiveCode"] + `"></td> <!-- HiveCode -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["AddressID"] + `"></td> <!-- AddressID -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Supers_Cnt"] + `"></td> <!-- Supers_Cnt -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Frames"] + `"></td> <!-- Frames -->
+                                <td><input type="text" maxlength="10" value="` + row["QType"] + `"></td> <!-- Queen_Type -->
+                                <td><input type="text" maxlength="25" value="` + row["QDOB"] + `"></td> <!-- Queen_DOB -->
+                                <td><input type="checkbox" ` + q_clipped + `></td> <!-- Queen_Clipped -->
+                                <td><input type="checkbox" ` + q_marked + `></td> <!-- Queen_Marked -->
+                                <td><input type="text" maxlength="500" value="` + row["Notes"] + `"></td> <!-- Notes -->
+                                <th>Not available.</th> <!-- Images -->
+                                <th>` + row["PostDate"] + `</th> <!-- PostDate -->
+                            </tr>`
+                        })
+
+                        // replace current body with new body
+                        html_table.children[1].innerHTML = table_body;
+
+                    })
+            } else {
+                window.alert("failed!!")
+            }
+        }
+        ).catch(function (err) {
+            console.log(err);
+        });
+    }
+    else if (table == "hip_HiveInspectionDetails") {
+        fetch("/api/hip/get_hip_HiveInspectionDetails", { // fetch to the api route that is provided in backend, with get if you need
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+        })
+        .then(function (response) {
+            if (response.status == 200) {
+                response.json()
+                    .then(data => {
+
+                        // Rebuild table depending on the existing data
+                        var html_table = document.getElementById("hip_HiveInspectionDetails_table");
+
+                        // build table body from data
+                        let table_body = "";
+                        data.forEach(function (row, row_val) {
+                            table_body += `<tr>
+                                <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
+                                <th>` + row["InspectionID"] + `</th> <!-- InspectionID -->
+                                <th>` + row["HiveID"] + `</th> <!-- HiveID -->
+                                <td><input type="text" maxlength="25" value="` + row["InspDate"] + `"></td> <!-- InspDate -->
+                                <td><input type="text" maxlength="7" value="` + row["InspTime"] + `"></td> <!-- InspTime -->
+                                <td><input type="text" maxlength="10" value="` + row["Condition"] + `"></td> <!-- Condition -->
+                                <td><input type="text" maxlength="10" value="` + row["Temperament"] + `"></td> <!-- Temperament -->
+                                <td><input type="text" maxlength="10" value="` + row["Population"] + `"></td> <!-- Population -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCnt_Honey"] + `"></td> <!-- FCnt_Honey -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCnt_Brood"] + `"></td> <!-- FCnt_Brood -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCnt_Pollen"] + `"></td> <!-- FCnt_Pollen -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCnt_Empty"] + `"></td> <!-- FCnt_Empty -->
+                                <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCnt_Drone"] + `"></td> <!-- FCnt_Drone -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Honey"] + `"></td> <!-- FCon_Honey -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Brood"] + `"></td> <!-- FCon_Brood -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_BroodPattern"] + `"></td> <!-- FCon_BroodPattern -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Eggs"] + `"></td> <!-- FCon_Eggs -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Pollen"] + `"></td> <!-- FCon_Pollen -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Empty"] + `"></td> <!-- FCon_Empty -->
+                                <td><input type="text" maxlength="50" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["FCon_Drone"] + `"></td> <!-- FCon_Drone -->
+                                <td><input type="text" maxlength="500" value="` + row["Notes"] + `"></td> <!-- Notes -->
+                            </tr>`
+                        })
+
+                        // replace current body with new body
+                        html_table.children[1].innerHTML = table_body;
+
+                    })
+            } else {
+                window.alert("failed!!")
+            }
+        }
+        ).catch(function (err) {
+            console.log(err);
+        });
+    }
+    else if (table == "hip_HiveHealth") {
+        fetch("/api/hip/get_hip_HiveHealth", { // fetch to the api route that is provided in backend, with get if you need
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+        })
             .then(function (response) {
                 if (response.status == 200) {
                     response.json()
                         .then(data => {
 
                             // Rebuild table depending on the existing data
-                            var html_table = document.getElementById("hip_mms_Address_table");
+                            var html_table = document.getElementById("hip_HiveHealth_table");
 
                             // build table body from data
                             let table_body = "";
                             data.forEach(function (row, row_val) {
                                 table_body += `<tr>
                                     <th><button onclick="this.parentNode.parentNode.remove()">-</button></th>
-                                    <th>` + row["AddressID"] + `</th> <!-- AddressID -->
-                                    <th>` + row["UserID"] + `</th> <!-- UserID -->
-                                    <td><input type="text" maxlength="5" value="` + row["AddressType"] + `"></td> <!-- AddressType -->
-                                    <td><input type="text" maxlength="50" value="` + row["Address1"] + `"></td> <!-- Address1 -->
-                                    <td><input type="text" maxlength="50" value="` + row["Address2"] + `"></td> <!-- Address2 -->
-                                    <td><input type="text" maxlength="50" value="` + row["Address3"] + `"></td> <!-- Address3 -->
-                                    <td><input type="text" maxlength="25" value="` + row["City"] + `"></td> <!-- City -->
-                                    <td><input type="text" maxlength="5" value="` + row["PostCode"] + `"></td> <!-- PostCode -->
-                                    <td><input type="text" maxlength="25" value="` + row["RegionalCouncil"] + `"></td> <!-- RegionalCouncil -->
-                                    <td><input type="text" maxlength="5" value="` + row["State"] + `"></td> <!-- State -->
-                                    <td><input type="text" maxlength="5" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Country"] + `"></td> <!-- Country -->
-                                    <th>` + row["PostDate"] + `</th> <!-- PostDate -->
+                                    <th>` + row["HiveHealthID"] + `</th> <!-- HiveHealthID -->
+                                    <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["HiveInspectionID"] + `"></td> <!-- HiveInspectionID -->
+                                    <td><input type="text" maxlength="25" value="` + row["Date"] + `"></td> <!-- Date -->
+                                    <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Irregularity"] + `"></td> <!-- Irregularity -->
+                                    <td><input type="text" maxlength="25" oninput="this.value = parseInt(this.value) ? this.value : ''" value="` + row["Seriousness"] + `"></td> <!-- Seriousness -->
+                                    <td><input type="text" maxlength="500" value="` + row["Notes"] + `"></td> <!-- Notes -->
                                 </tr>`
-
-                                //table_body += "<tr>\n<th>"
-                                //    + "</th><th>" + row["AddressID"]
-                                //    + "</th><th>" + row["UserID"]
-                                //    + "</th><td contenteditable=\"true\">" + row["AddressType"]
-                                //    + "</td><td contenteditable=\"true\">" + row["Address1"]
-                                //    + "</td><td contenteditable=\"true\">" + row["Address2"]
-                                //    + "</td><td contenteditable=\"true\">" + row["Address3"]
-                                //    + "</td><td contenteditable=\"true\">" + row["City"]
-                                //    + "</td><td contenteditable=\"true\">" + row["PostCode"]
-                                //    + "</td><td contenteditable=\"true\">" + row["RegionalCouncil"]
-                                //    + "</td><td contenteditable=\"true\">" + row["State"]
-                                //    + "</td><td contenteditable=\"true\">" + row["Country"]
-                                //    + "</td><th>" + row["PostDate"]
-                                //    + "</th>\n</tr>";
                             })
 
                             // replace current body with new body
@@ -321,18 +457,18 @@ function hip_uploadTable(table) {
             let html_row_data = html_table_data[i].children;
             var json_row = {};
 
-            json_row.AddressID = html_table_data[i].children[1].innerHTML;
-            json_row.UserID = html_table_data[i].children[2].innerHTML;
-            json_row.AddressType = html_table_data[i].children[3].firstChild.value;
-            json_row.Address1 = html_table_data[i].children[4].firstChild.value;
-            json_row.Address2 = html_table_data[i].children[5].firstChild.value;
-            json_row.Address3 = html_table_data[i].children[6].firstChild.value;
-            json_row.City = html_table_data[i].children[7].firstChild.value;
-            json_row.PostCode = html_table_data[i].children[8].firstChild.value;
-            json_row.RegionalCouncil = html_table_data[i].children[9].firstChild.value;
-            json_row.State = html_table_data[i].children[10].firstChild.value;
-            json_row.Country = html_table_data[i].children[11].firstChild.value;
-            json_row.PostDate = html_table_data[i].children[12].innerHTML;
+            json_row.AddressID = html_row_data[1].innerHTML;
+            json_row.UserID = html_row_data[2].innerHTML;
+            json_row.AddressType = html_row_data[3].firstChild.value;
+            json_row.Address1 = html_row_data[4].firstChild.value;
+            json_row.Address2 = html_row_data[5].firstChild.value;
+            json_row.Address3 = html_row_data[6].firstChild.value;
+            json_row.City = html_row_data[7].firstChild.value;
+            json_row.PostCode = html_row_data[8].firstChild.value;
+            json_row.RegionalCouncil = html_row_data[9].firstChild.value;
+            json_row.State = html_row_data[10].firstChild.value;
+            json_row.Country = html_row_data[11].firstChild.value;
+            json_row.PostDate = html_row_data[12].innerHTML;
 
             json_table.push(json_row); // add row entry to list
 
