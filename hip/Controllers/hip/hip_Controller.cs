@@ -30,11 +30,11 @@ namespace BeeAware.Controllers
         
 
         [HttpGet] //depents on get or post function
-        [Route("Test")] // the route to fetch as api/[ModuleName]/[Route]. e.g: This one is for api/Example/Test
+        [Route("test")] // the route to fetch as api/[ModuleName]/[Route]. e.g: This one is for api/Example/Test
         [ProducesResponseType(StatusCodes.Status200OK)] // passibile response
         public ContentResult Test()  // same method name as route
         {
-           return new ContentResult { Content = JsonSerializer.Serialize("hello world"), StatusCode = 200 }; // { Content = JsonSerializer.Serialize([returnedElement]), StatusCode = [StatusCode] }; 
+           return new ContentResult { Content = JsonSerializer.Serialize("Test success!"), StatusCode = 200 }; // { Content = JsonSerializer.Serialize([returnedElement]), StatusCode = [StatusCode] }; 
         }
 
         [HttpGet]
@@ -141,12 +141,30 @@ namespace BeeAware.Controllers
             return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("post_hip_HiveHeader")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ContentResult PostHiveHeader(List<hip_HiveHeader> hip_HiveHeaders)
+        public ContentResult PostHiveHeader(List<hip_HiveHeader> hip_HiveHeader_tables)
         {
-            throw new NotImplementedException();
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+
+            //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
+            string json = JsonSerializer.Serialize(hip_HiveHeader_tables).ToString();
+
+            SqlCommand cmd = new SqlCommand(@$"DELETE FROM hip_HiveHeader DECLARE @JSON VARCHAR(MAX) = '{json}'
+                INSERT INTO hip_HiveHeader SELECT * FROM OPENJSON(@JSON)
+                WITH (HiveID INT, UserID INT, HiveCode VARCHAR(10), AddressID BIGINT, Supers_Cnt INT, Frames INT,
+                QType NCHAR(10), QDOB DATE, QClipped BIT, QMarked BIT, Notes NVARCHAR(MAX), PostDate DATE, Images VARBINARY(MAX))", con);
+
+            con.Open();
+            //int rows_affected = delete_cmd.ExecuteNonQuery();
+            int rows_affected = cmd.ExecuteNonQuery();
+            con.Close();
+            if (rows_affected <= 0)
+            {
+                throw new Exception("no rows affected.");
+            }
+            return new ContentResult { Content = JsonSerializer.Serialize("Successfully updated the table!"), StatusCode = 200 };
         }
 
         [HttpGet]
@@ -195,12 +213,31 @@ namespace BeeAware.Controllers
             return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("post_hip_HiveInspectionDetails")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ContentResult PostHiveInspectionDetails(List<hip_HiveInspectionDetail> hip_HiveInspectionDetails)
+        public ContentResult PostHiveInspectionDetails(List<hip_HiveInspectionDetail> hip_HiveInspectionDetail_tables)
         {
-            throw new NotImplementedException();
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+
+            //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
+            string json = JsonSerializer.Serialize(hip_HiveInspectionDetail_tables).ToString();
+
+            SqlCommand cmd = new SqlCommand(@$"DELETE FROM hip_HiveInspectionDetail DECLARE @JSON VARCHAR(MAX) = '{json}'
+                INSERT INTO hip_HiveInspectionDetail SELECT * FROM OPENJSON(@JSON)
+                WITH (InspectionID BIGINT, HiveID BIGINT, InspDate DATE, InspTime TIME, Condition VARCHAR(10), Temperament VARCHAR(10),
+                Population VARCHAR(10), FCnt_Honey INT, FCnt_Brood INT, FCnt_Pollen INT, FCnt_Empty INT, FCnt_Drone INT, FCon_Honey BIGINT,
+                FCon_Brood BIGINT, FCon_BroodPattern BIGINT, FCon_Eggs BIGINT, FCon_Pollen BIGINT, FCon_Empty BIGINT, FCon_Drone BIGINT, Notes NVARCHAR(MAX))", con);
+
+            con.Open();
+            //int rows_affected = delete_cmd.ExecuteNonQuery();
+            int rows_affected = cmd.ExecuteNonQuery();
+            con.Close();
+            if (rows_affected <= 0)
+            {
+                throw new Exception("no rows affected.");
+            }
+            return new ContentResult { Content = JsonSerializer.Serialize("Successfully updated the table!"), StatusCode = 200 };
         }
 
         [HttpGet]
@@ -235,12 +272,29 @@ namespace BeeAware.Controllers
             return new ContentResult { Content = JsonSerializer.Serialize(result), StatusCode = 200 };
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("post_hip_HiveHealth")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ContentResult PostHiveHealth(List<hip_HiveHealth> hip_HiveHealths)
+        public ContentResult PostHiveHealth(List<hip_HiveHealth> hip_HiveHealth_tables)
         {
-            throw new NotImplementedException();
+            SqlConnection con = new SqlConnection(_configuration.GetConnectionString("BeeAwareLogin").ToString());
+
+            //SqlCommand delete_cmd = new SqlCommand("DELETE FROM mms_Address", con);
+            string json = JsonSerializer.Serialize(hip_HiveHealth_tables).ToString();
+
+            SqlCommand cmd = new SqlCommand(@$"DELETE FROM hip_HiveHealth DECLARE @JSON VARCHAR(MAX) = '{json}'
+                INSERT INTO hip_HiveHealth SELECT * FROM OPENJSON(@JSON)
+                WITH (HiveHealthID BIGINT, HiveInspectionID BIGINT, Date DATE, Irregularity INT, Seriousness INT, Notes NVARCHAR(MAX))", con);
+
+            con.Open();
+            //int rows_affected = delete_cmd.ExecuteNonQuery();
+            int rows_affected = cmd.ExecuteNonQuery();
+            con.Close();
+            if (rows_affected <= 0)
+            {
+                throw new Exception("no rows affected.");
+            }
+            return new ContentResult { Content = JsonSerializer.Serialize("Successfully updated the table!"), StatusCode = 200 };
         }
 
         //[HttpGet]

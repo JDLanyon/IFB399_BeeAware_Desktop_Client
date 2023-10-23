@@ -111,8 +111,8 @@ function hip_newEntry(table) {
 
         html_table.children[1].insertAdjacentHTML('beforeend', row_body);
     }
-    else if (table == "hip_HiveInspectiondetails") {
-        let html_table = document.getElementById("hip_HiveInspectiondetails_table");
+    else if (table == "hip_HiveInspectionDetails") {
+        let html_table = document.getElementById("hip_HiveInspectionDetails_table");
 
         // find the lowest available hive id
         let lowest_inspection_id = 1;
@@ -510,10 +510,164 @@ function hip_uploadTable(table) {
                 }
             }
             ).catch(function (err) {
-                
+
             });
 
+    } else if (table == "hip_HiveHeader") {
+        let html_table_data = document.getElementById("hip_HiveHeader_table").rows;
+        let json_table = [];
+        console.log(html_table_data);
 
+        for (let i = 1; i < html_table_data.length; i++) { // i starts at 1 to avoid the header row.
+            let html_row_data = html_table_data[i].children;
+            var json_row = {};
+
+            json_row.HiveID = html_row_data[1].innerHTML;
+            json_row.UserID = html_row_data[2].innerHTML;
+            json_row.HiveCode = html_row_data[3].firstChild.value;
+            json_row.AddressID = html_row_data[4].firstChild.value;
+            json_row.Supers_Cnt = html_row_data[5].firstChild.value;
+            json_row.Frames = html_row_data[6].firstChild.value;
+            json_row.QType = html_row_data[7].firstChild.value;
+            json_row.QDOB = html_row_data[8].firstChild.value;
+            json_row.QClipped = html_row_data[9].firstChild.checked;
+            json_row.QMarked = html_row_data[10].firstChild.checked;
+            json_row.Notes = html_row_data[11].firstChild.value;
+            json_row.Images = null; // :(
+            json_row.PostDate = html_row_data[13].innerHTML;
+
+            json_table.push(json_row); // add row entry to list
+
+        }
+
+        console.log(json_table);
+        const data = JSON.stringify(json_table);
+
+        // push to DB
+        fetch("/api/hip/post_hip_HiveHeader", {
+            method: 'POST',
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+            body: data,
+        })
+            .then(function (response) {
+                if (response.status == 200) {
+                    response.json()
+                        .then(() => {
+                            window.alert("Success!")
+                        })
+                } else {
+
+                }
+            }
+            ).catch(function (err) {
+
+            });
+
+    } else if (table == "hip_HiveInspectionDetails") {
+        let html_table_data = document.getElementById("hip_HiveInspectionDetails_table").rows;
+        let json_table = [];
+        console.log(html_table_data);
+
+        for (let i = 1; i < html_table_data.length; i++) { // i starts at 1 to avoid the header row.
+            let html_row_data = html_table_data[i].children;
+            var json_row = {};
+
+            json_row.InspectionID = html_row_data[1].innerHTML;
+            json_row.HiveID = html_row_data[2].innerHTML;
+            json_row.InspDate = html_row_data[3].firstChild.value;
+            json_row.InspTime = html_row_data[4].firstChild.value;
+            json_row.Condition = html_row_data[5].firstChild.value;
+            json_row.Temperament = html_row_data[6].firstChild.value;
+            json_row.Population = html_row_data[7].firstChild.value;
+            json_row.FCnt_Honey = html_row_data[8].firstChild.value;
+            json_row.FCnt_Brood = html_row_data[9].firstChild.value;
+            json_row.FCnt_Pollen = html_row_data[10].firstChild.value;
+            json_row.FCnt_Empty = html_row_data[11].firstChild.value;
+            json_row.FCnt_Drone = html_row_data[12].firstChild.value;
+            json_row.FCon_Honey = html_row_data[13].firstChild.value;
+            json_row.FCon_Brood = html_row_data[14].firstChild.value;
+            json_row.FCon_BroodPattern = html_row_data[15].firstChild.value;
+            json_row.FCon_Eggs = html_row_data[16].firstChild.value;
+            json_row.FCon_Pollen = html_row_data[17].firstChild.value;
+            json_row.FCon_Empty = html_row_data[18].firstChild.value;
+            json_row.FCon_Drone = html_row_data[19].firstChild.value;
+            json_row.Notes = html_row_data[20].firstChild.value;
+
+            json_table.push(json_row); // add row entry to list
+
+        }
+
+        console.log(json_table);
+        const data = JSON.stringify(json_table);
+
+        // push to DB
+        fetch("/api/hip/post_hip_HiveInspectionDetails", {
+            method: 'POST',
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+            body: data,
+        })
+            .then(function (response) {
+                if (response.status == 200) {
+                    response.json()
+                        .then(() => {
+                            window.alert("Success!")
+                        })
+                } else {
+
+                }
+            }
+            ).catch(function (err) {
+
+            });
+
+    } else if (table == "hip_HiveHealth") {
+        let html_table_data = document.getElementById("hip_HiveHealth_table").rows;
+        let json_table = [];
+        console.log(html_table_data);
+
+        for (let i = 1; i < html_table_data.length; i++) { // i starts at 1 to avoid the header row.
+            let html_row_data = html_table_data[i].children;
+            var json_row = {};
+
+            json_row.HiveHealthID = html_row_data[1].innerHTML;
+            json_row.HiveInspectionID = html_row_data[2].firstChild.value;
+            json_row.Date = html_row_data[3].firstChild.value;
+            json_row.Irregularity = html_row_data[4].firstChild.value;
+            json_row.Seriousness = html_row_data[5].firstChild.value;
+            json_row.Notes = html_row_data[6].firstChild.value;
+
+            json_table.push(json_row); // add row entry to list
+
+        }
+
+        console.log(json_table);
+        const data = JSON.stringify(json_table);
+
+        // push to DB
+        fetch("/api/hip/post_hip_HiveHealth", {
+            method: 'POST',
+            referer: 'about:client',
+            credentials: 'same-origin',
+            headers: new Headers({ 'content-type': 'application/ json' }),
+            body: data,
+        })
+            .then(function (response) {
+                if (response.status == 200) {
+                    response.json()
+                        .then(() => {
+                            window.alert("Success!")
+                        })
+                } else {
+
+                }
+            }
+            ).catch(function (err) {
+
+            });
     } else {
         window.alert("Unexpected parameter given for hip_uploadTable().");
     }

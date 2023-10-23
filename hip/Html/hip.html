@@ -19,8 +19,26 @@
 
         <div id="hip_Information" class="hip_screen">
             <h1>Hive Inspections - Information</h1>
-            <p>This page will contain information about this module.</p>
-            <button onclick="exampleTest()">this is a test button</button>
+            <br />
+            <br />
+            <p>This module will allow you to make alterations to the hives using html tables.</p>
+            <p>Each table seen on the left directly interacts with a table within the database.</p>
+
+            <h3>Editing tables</h3>
+            <p>By clicking into cells, all entries can be directly modified. Pressing tab will move to the next cell.</p>
+            <p>Some entries will be darkened, these cannot be edited.</p>
+
+            <h3>The control buttons</h3>
+            <p>Above each table are 3 buttons as shown.</p>
+            <button>Resync table</button>
+            <button>Upload table</button>
+            <button>Add row</button>
+            <p><b>Rysnc table</b> will synchronise the front end table with the backend. This will overwrite any modifications you've made.<br />- Be sure to do this before making modifications.</p>
+            <p><b>Upload table</b> updates the backend table with any modifications you have made. This includes anything that's been removed, edited or added.</p>
+            <p><b>Add row</b> inserts a row.</p>
+
+            <h3>Final note</h3>
+            <p>This module is fairly bare bones since it allows direct interaction with the existing tables. If uploads fail, check that all entries are expected values.</p>
         </div>
 
         <div id="hip_mms_Address" class="hip_screen" style="display: none;">
@@ -87,7 +105,7 @@
                         <th>Supers_Cnt</th>
                         <th>Frames</th>
                         <th>Queen_Type</th>
-                        <th>Queen_DOB</th>
+                        <th style="min-width: 200px">Queen_DOB</th>
                         <th>Queen_Clipped</th>
                         <th>Queen_Marked</th>
                         <th style="min-width: 400px">Notes</th>

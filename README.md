@@ -82,5 +82,11 @@ As a result a "Not available" is displayed under image columns and sections for 
 The HiveInspectionNotes table has also been removed as a result of this as the table proves useless without handling the SQLBinary datatype.
 </details>
 
+<details>
+  <summary><h3>Null entries appear as string "null" upon resync</h3></summary>
+
+No checks for NULL types are made before pushing entries to the html table, resulting in `"null"` rather than `NULL` in tables.
+</details>
+
 ---
 This is a **public** repository, however pull requests may not be accepted as this is a capstone project for QUT.
