@@ -1,13 +1,14 @@
 # IFB399_BeeAware_Hive_Inspections
-This readme file will be expanded upon later contain a lot more relevant information.
+This is a hive inspection module for the [base app for BeeAware](https://github.com/tendy0505/BeeAware)
+The module provides 4 front end tables that allow for directly interracting with the backend tables.
 
 ## Description
-This is a hive inspection module for the [base app for BeeAware](https://github.com/tendy0505/BeeAware)
-The module provides 5 front end tables that allow for directly interracting with the backend tables.
 
+Instructions on how to use this as a user are outlined on the landing page.
 
+![image](https://github.com/JDLanyon/IFB399_BeeAware_Hive_Inspections/assets/40357888/a66ad058-7e99-4d5e-83b5-b87950c17384)
 
-Javascript functions to note are;
+Within this module, the two main javascript functions to note are;
 
 **`hip_resyncTable(table)`** which makes get requests to pull all data from the specified table and rewrites the html table with the returned data.
 
@@ -17,8 +18,47 @@ There are no robust checks for datatypes or null entries, so using the "upload t
 
 
 ## Setup
+### Intended method
 Using the base app found [here](https://github.com/tendy0505/BeeAware), upload this module's .zip file.
 
+![image](https://github.com/JDLanyon/IFB399_BeeAware_Hive_Inspections/assets/40357888/b3c31cb5-a1bb-40d9-ab08-d544f87ef030)
+![image](https://github.com/JDLanyon/IFB399_BeeAware_Hive_Inspections/assets/40357888/34c3bc20-4981-45f0-824d-c088b930b307)
+
+### Manual install
+In the event where the upload module functionality isn't working on the base app, you can manually add the module.
+#### Editing table entries
+For the module to be recognised, it must be referenced within `glb_SecMod`.
+
+![image](https://github.com/JDLanyon/IFB399_BeeAware_Hive_Inspections/assets/40357888/e7cbf8f6-fa78-4579-a6da-4d6d8e017e5b)
+```sql
+INSERT INTO glb_SecMod VALUES('hip', 'HInspect', 'Hive Inspections Module', 2);
+```
+Where 2 is the security level needed to access the module.
+
+#### Adding files
+From the hip.zip file, move all files to the base app following the file structure below.
+```DOM
+BeeAware
+├───Modules
+│   ├───Controllers
+│   │   └───hip
+│   │           hip_Controller.cs
+│   │
+│   └───Models
+│       └───hip
+│               hip_Model.cs
+│
+└───wwwroot
+    └───Modules
+        ├───Css
+        │       hip.css
+        │
+        ├───Html
+        │       hip.html
+        │
+        └───Js
+                hip.js
+```
 
 ## Known Issues
 These will be explored further within the report.
